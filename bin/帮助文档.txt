@@ -1,8 +1,0 @@
-一，弹窗示例代码
-	layer.open({
-			title: '自定义title',
-	        type: 1,
-	        area: ['600px', '360px'],
-	        shadeClose: true, //点击遮罩关闭
-	        content: '\<\div style="padding:20px;">自定义内容\<\/div>'
-	    });

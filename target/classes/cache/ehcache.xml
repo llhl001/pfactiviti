@@ -2,7 +2,7 @@
 
 <ehcache name="defaultCache" updateCheck="false">
 
-	<diskStore path="../temp/platform/ehcache" />
+	<diskStore path="../temp/pfactiviti/ehcache" />
 
 	<defaultCache maxElementsInMemory="10000" eternal="false"
 		timeToIdleSeconds="120" timeToLiveSeconds="120" diskSpoolBufferSizeMB="30"
