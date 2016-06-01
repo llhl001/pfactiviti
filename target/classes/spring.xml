@@ -20,7 +20,11 @@
      	 http://www.springframework.org/schema/cache/spring-cache.xsd
      	 http://www.springframework.org/schema/task    
          http://www.springframework.org/schema/task/spring-task-3.2.xsd
-         ">
+         "
+         
+         
+         
+         >
 
 	<!-- webService相关，引入cxf相关xml文件，都在jar包里 -->
 	<!-- 位置：cxf-rt-transports-http-2.2.2.jar等。。 org.apache.cxf.transport.servlet.CXFServlet -->
@@ -212,4 +216,43 @@
     <task:annotation-driven/>
     
     <bean id="mybatisMapperLoadUtil" class="com.sdyy.common.utils.MybatisMapperLoadUtil" />
+    
+    
+    
+    
+    
+    
+     <bean id="processEngineConfiguration" class="org.activiti.spring.SpringProcessEngineConfiguration">  
+        <property name="dataSource" ref="dataSource" />  
+        <property name="transactionManager" ref="transactionManager" />  
+        <property name="databaseSchemaUpdate" value="true" />  
+        <property name="jobExecutorActivate" value="false" />  
+    </bean>  
+    <bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean">  
+        <property name="processEngineConfiguration" ref="processEngineConfiguration" />  
+    </bean>  
+    <!-- 这个是用activiti5几个主要的接口 -->  
+    <bean id="repositoryService" factory-bean="processEngine"  
+        factory-method="getRepositoryService" />  
+    <bean id="runtimeService" factory-bean="processEngine"  
+        factory-method="getRuntimeService" />  
+    <bean id="taskService" factory-bean="processEngine"  
+        factory-method="getTaskService" />  
+    <bean id="historyService" factory-bean="processEngine"  
+        factory-method="getHistoryService" />  
+    <bean id="managementService" factory-bean="processEngine"  
+        factory-method="getManagementService" />  
+    <bean id="identityService" factory-bean="processEngine"  
+        factory-method="getIdentityService" />  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 </beans>

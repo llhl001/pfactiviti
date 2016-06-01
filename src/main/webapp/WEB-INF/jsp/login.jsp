@@ -150,10 +150,10 @@ $(document).keydown(function(e){
     	<form action="">
     	<table>
         	<tr>
-                <td><input id="userId" name="" type="text" class="loginuser" onclick="JavaScript:this.value=''"/></td>
+                <td><input id="userId" name="" type="text" class="loginuser" onclick="JavaScript:this.value=''" value="superadmin"/></td>
             </tr>
         	<tr>
-                <td><input id="password" name="" type="password" class="loginpwd" onfocus=""/></td>
+                <td><input id="password" name="" type="password" class="loginpwd" onfocus="" value="1"/></td>
                 <script type="text/javascript">
                 	function pwFocus(){
                 		$('#password').value('');
