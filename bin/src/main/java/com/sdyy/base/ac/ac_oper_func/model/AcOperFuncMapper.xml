@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="acOperFuncSpace" >
+  <sql id="Base_Column_List" >
+    OPERATOR_ID, FUNC_ID, AUTH_TYPE, APP_ID, FUNC_GROUP_ID, START_DATE, END_DATE
+  </sql>
+  <select id="get" resultType="map" parameterType="string" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM AC_OPER_FUNC
+    WHERE OPERATOR_ID = #{OPERATOR_ID}
+      AND FUNC_ID = #{FUNC_ID}
+      AND AUTH_TYPE = #{AUTH_TYPE}
+  </select>
+  <select id="query" resultType="map" parameterType="map" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM AC_OPER_FUNC
+    WHERE 1=1
+  </select>
+  <select id="queryPage" resultType="map" parameterType="map" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM AC_OPER_FUNC
+    WHERE 1=1
+    <if test="OPERATOR_ID != null">
+		AND OPERATOR_ID = #{OPERATOR_ID}
+	</if>
+  </select>
+  <delete id="delete" parameterType="string" >
+    DELETE FROM AC_OPER_FUNC
+    WHERE
+    	1=2
+	    <if test="OPERATOR_ID != null" >
+	     OR  OPERATOR_ID = #{OPERATOR_ID}
+	    </if> 
+      <!-- OPERATOR_ID = #{OPERATOR_ID}
+      AND FUNC_ID = #{FUNC_ID}
+      AND AUTH_TYPE = #{AUTH_TYPE} -->
+  </delete>
+  <insert id="insert" parameterType="map" >
+    INSERT INTO AC_OPER_FUNC (OPERATOR_ID, FUNC_ID, AUTH_TYPE, 
+      APP_ID, FUNC_GROUP_ID, START_DATE, 
+      END_DATE)
+    VALUES (#{OPERATOR_ID}, #{FUNC_ID}, #{AUTH_TYPE}, 
+      #{APP_ID}, #{FUNC_GROUP_ID}, #{START_DATE}, 
+      #{END_DATE})
+  </insert>
+  
+
+  <update id="update" parameterType="map" >
+   UPDATE AC_OPER_FUNC
+    <set >
+      <if test="APP_ID != null" >
+        APP_ID = #{APP_ID},
+      </if>
+      <if test="FUNC_GROUP_ID != null" >
+        FUNC_GROUP_ID = #{FUNC_GROUP_ID},
+      </if>
+      <if test="START_DATE != null" >
+        START_DATE = #{START_DATE},
+      </if>
+      <if test="END_DATE != null" >
+        END_DATE = #{END_DATE},
+      </if>
+    </set>
+    WHERE OPERATOR_ID = #{OPERATOR_ID}
+      AND FUNC_ID = #{FUNC_ID}
+      AND AUTH_TYPE = #{AUTH_TYPE}
+  </update>
+  
+
+</mapper>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="omEmpPositionSpace" >
+  <sql id="Base_Column_List" >
+    POSITION_ID, EMP_ID, IS_MAIN
+  </sql>
+  <select id="get" resultType="map" parameterType="string" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM OM_EMP_POSITION
+    WHERE POSITION_ID = #{POSITION_ID}
+      AND EMP_ID = #{EMP_ID}
+  </select>
+  <select id="query" resultType="map" parameterType="map" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM OM_EMP_POSITION
+    WHERE 1=1
+  </select>
+  <select id="queryPage" resultType="map" parameterType="map" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM OM_EMP_POSITION
+    WHERE 1=1
+  </select>
+  <delete id="delete" parameterType="string" >
+    DELETE FROM OM_EMP_POSITION
+    WHERE POSITION_ID = #{POSITION_ID}
+      AND EMP_ID = #{EMP_ID}
+  </delete>
+  <insert id="insert" parameterType="map" >
+    INSERT INTO OM_EMP_POSITION (POSITION_ID, EMP_ID, IS_MAIN
+      )
+    VALUES (#{POSITION_ID}, #{EMP_ID}, #{IS_MAIN}
+      )
+  </insert>
+  
+
+  <update id="update" parameterType="map" >
+   UPDATE OM_EMP_POSITION
+    <set >
+      <if test="IS_MAIN != null" >
+        IS_MAIN = #{IS_MAIN},
+      </if>
+    </set>
+    WHERE POSITION_ID = #{POSITION_ID}
+      AND EMP_ID = #{EMP_ID}
+  </update>
+  
+
+</mapper>

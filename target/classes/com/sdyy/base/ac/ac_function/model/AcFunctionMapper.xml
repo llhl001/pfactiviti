@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="acFunctionSpace" >
+  <resultMap id="AcFunctionTreeNodeResultMap" type="com.sdyy.base.ac.ac_function.model.AcFunctionTreeNode" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="PID" property="pId" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="ICON_SKIN" property="iconSkin" jdbcType="VARCHAR" />
+    <result column="IS_PARENT" property="isParent" jdbcType="CHAR" />
+    <result column="EXTEND_ATTR" property="extendAttr" jdbcType="VARCHAR" />
+    <result column="EXTEND_ATTR_1" property="extendAttr1" jdbcType="VARCHAR" />
+    <result column="CHECKED" property="checked" jdbcType="CHAR" />
+    
+    <result column="FUNC_ACTION" property="funcAction" jdbcType="VARCHAR" />
+    <result column="PARA_INFO" property="paraInfo" jdbcType="VARCHAR" />
+    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    FUNC_ID, FUNC_GROUP_ID, FUNC_NAME, FUNC_DESC, FUNC_ACTION, PARA_INFO, IS_CHECK, FUNC_TYPE, 
+    IS_MENU
+  </sql>
+  <select id="get" resultType="map" parameterType="string" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM AC_FUNCTION
+    WHERE FUNC_ID = #{FUNC_ID}
+  </select>
+  <select id="query" resultType="map" parameterType="map" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM AC_FUNCTION
+    WHERE 1=1
+    <if test="FUNC_ACTION != null">
+		AND FUNC_ACTION = #{FUNC_ACTION}
+	</if>
+    
+  </select>
+  <select id="queryPage" resultType="map" parameterType="map" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM AC_FUNCTION
+    WHERE 1=1
+  </select>
+  <delete id="delete" parameterType="string" >
+    DELETE AC_FUNCTION,AC_MENU,AC_ROLE_FUNC,AC_OPER_FUNC
+     FROM AC_FUNCTION
+     LEFT JOIN AC_MENU
+    ON AC_FUNCTION.FUNC_ID = AC_MENU.FUNC_ID
+    LEFT JOIN AC_ROLE_FUNC
+    ON AC_FUNCTION.FUNC_ID = AC_ROLE_FUNC.FUNC_ID
+    LEFT JOIN AC_OPER_FUNC
+    ON AC_FUNCTION.FUNC_ID = AC_OPER_FUNC.FUNC_ID
+    WHERE AC_FUNCTION.FUNC_ID = #{FUNC_ID}
+  </delete>
+  <insert id="insert" parameterType="map" >
+    INSERT INTO AC_FUNCTION (FUNC_ID, FUNC_GROUP_ID, FUNC_NAME, 
+      FUNC_DESC, FUNC_ACTION, PARA_INFO, 
+      IS_CHECK, FUNC_TYPE, IS_MENU
+      )
+    VALUES (#{FUNC_ID}, #{FUNC_GROUP_ID}, #{FUNC_NAME}, 
+      #{FUNC_DESC}, #{FUNC_ACTION}, #{PARA_INFO}, 
+      #{IS_CHECK}, #{FUNC_TYPE}, #{IS_MENU}
+      )
+  </insert>
+  
+
+  <update id="update" parameterType="map" >
+   UPDATE AC_FUNCTION
+    <set >
+      <if test="FUNC_GROUP_ID != null" >
+        FUNC_GROUP_ID = #{FUNC_GROUP_ID},
+      </if>
+      <if test="FUNC_NAME != null" >
+        FUNC_NAME = #{FUNC_NAME},
+      </if>
+      <if test="FUNC_DESC != null" >
+        FUNC_DESC = #{FUNC_DESC},
+      </if>
+      <if test="FUNC_ACTION != null" >
+        FUNC_ACTION = #{FUNC_ACTION},
+      </if>
+      <if test="PARA_INFO != null" >
+        PARA_INFO = #{PARA_INFO},
+      </if>
+      <if test="IS_CHECK != null" >
+        IS_CHECK = #{IS_CHECK},
+      </if>
+      <if test="FUNC_TYPE != null" >
+        FUNC_TYPE = #{FUNC_TYPE},
+      </if>
+      <if test="IS_MENU != null" >
+        IS_MENU = #{IS_MENU},
+      </if>
+    </set>
+    WHERE FUNC_ID = #{FUNC_ID}
+  </update>
+
+	<sql id="queryChildrenTreeNodes_condition">
+		<if test="APP_ID != null and APP_ID !=''">
+			AND APP_ID = #{APP_ID}
+		</if>
+	</sql>
+  <select id="queryTreeNodes" resultMap="AcFunctionTreeNodeResultMap" parameterType="map" >
+  	SELECT * FROM (
+  	(
+			SELECT
+				APP_ID ID,
+				'root' PID,
+				APP_CODE CODE,
+				APP_NAME NAME,
+				'APP' TYPE,
+				'FIcon01' ICON_SKIN,
+				APP_ID EXTEND_ATTR,
+				'1' IS_PARENT,
+				'' FUNC_ACTION,
+				'' PARA_INFO
+			FROM
+				AC_APPLICATION
+			WHERE
+					APP_ID != 'root'
+					<include refid="queryChildrenTreeNodes_condition" />
+		)
+	UNION ALL
+		(
+			SELECT
+				FUNC_GROUP_ID ID,
+				APP_ID PID,
+				FUNC_GROUP_SEQ CODE,
+				FUNC_GROUP_NAME NAME,
+				'FUNC_GROUP' TYPE,
+				'FIcon02' ICON_SKIN,
+				APP_ID EXTEND_ATTR,
+				'1' IS_PARENT,
+				'' FUNC_ACTION,
+				'' PARA_INFO
+	
+			FROM
+				AC_FUNC_GROUP
+			WHERE
+					ifnull(PARENT_GROUP,'') = ''
+					<include refid="queryChildrenTreeNodes_condition" />
+		)
+	UNION ALL
+		(
+			SELECT
+				FUNC_GROUP_ID ID,
+				PARENT_GROUP PID,
+				FUNC_GROUP_SEQ CODE,
+				FUNC_GROUP_NAME NAME,
+				'FUNC_GROUP' TYPE,
+				'FIcon02' ICON_SKIN,
+				APP_ID EXTEND_ATTR,
+				'1' IS_PARENT,
+				'' FUNC_ACTION,
+				'' PARA_INFO
+			FROM
+				AC_FUNC_GROUP
+			WHERE ifnull(PARENT_GROUP,'') != ''
+			<include refid="queryChildrenTreeNodes_condition" />
+		)
+	UNION ALL
+		(
+			SELECT
+				FUNC_ID ID,
+				AC_FUNCTION.FUNC_GROUP_ID PID,
+				FUNC_DESC CODE,
+				FUNC_NAME NAME,
+				'FUNCTION' TYPE,
+				'RFicon03' ICON_SKIN,
+				APP_ID EXTEND_ATTR,
+				'0' IS_PARENT,
+				FUNC_ACTION,
+				IFNULL(PARA_INFO,'') PARA_INFO
+			FROM
+				AC_FUNCTION
+			INNER JOIN
+				AC_FUNC_GROUP
+			ON AC_FUNCTION.FUNC_GROUP_ID = AC_FUNC_GROUP.FUNC_GROUP_ID
+			WHERE
+				1=1
+				<include refid="queryChildrenTreeNodes_condition" />
+				<if test="IS_MENU != null and IS_MENU !=''">
+					AND AC_FUNCTION.IS_MENU = #{IS_MENU}
+				</if>
+		)
+	) T
+	ORDER BY T.TYPE, T.CODE
+  </select>
+  <select id="queryPermitted" resultType="map" parameterType="map">
+  		SELECT FUNC_ID,FUNC_ACTION FROM (
+			SELECT
+				AC_FUNCTION.FUNC_ID,
+				AC_FUNCTION.FUNC_ACTION
+			FROM
+				AC_FUNCTION
+			INNER JOIN AC_ROLE_FUNC ON AC_FUNCTION.FUNC_ID = AC_ROLE_FUNC.FUNC_ID
+			INNER JOIN AC_OPERATOR_ROLE ON AC_OPERATOR_ROLE.ROLE_ID = AC_ROLE_FUNC.ROLE_ID
+			WHERE
+				1=1
+				<if test="OPERATOR_ID != null" >
+					AND AC_OPERATOR_ROLE.OPERATOR_ID = #{OPERATOR_ID}
+				</if>
+			GROUP BY FUNC_ID,FUNC_ACTION
+			UNION ALL
+				SELECT
+					AC_FUNCTION.FUNC_ID,
+					AC_FUNCTION.FUNC_ACTION
+				FROM
+					AC_OPER_FUNC
+				INNER JOIN AC_FUNCTION
+				ON AC_OPER_FUNC.FUNC_ID = AC_FUNCTION.FUNC_ID
+				WHERE
+					1=1
+					<if test="OPERATOR_ID != null" >
+						AND AC_OPER_FUNC.OPERATOR_ID = #{OPERATOR_ID}
+					</if>
+		) T
+		GROUP BY T.FUNC_ID,T.FUNC_ACTION
+  </select>
+</mapper>

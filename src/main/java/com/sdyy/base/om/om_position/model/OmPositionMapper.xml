@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="omPositionSpace" >
+  <sql id="Base_Column_List" >
+    POSITION_ID, POSI_CODE, POSI_NAME, POSI_LEVEL, PARENT_POSI_ID, ORG_ID, POSITION_SEQ, POSI_TYPE, 
+    CREATE_TIME, LAST_UPDATE_TIME, UPDATOR, START_DATE, END_DATE, STATUS, IS_LEAF,
+    (SELECT ORG_NAME FROM OM_ORGANIZATION P_ORG WHERE P_ORG.ORG_ID=OM_POSITION.ORG_ID ) ORG_NAME,
+    (SELECT POSI_NAME FROM OM_POSITION P_POSI WHERE P_POSI.POSITION_ID=PARENT_POSI_ID ) PARENT_POSI_NAME
+  </sql>
+  <select id="get" resultType="map" parameterType="string" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM OM_POSITION
+    WHERE POSITION_ID = #{POSITION_ID}
+  </select>
+  <select id="query" resultType="map" parameterType="map" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM OM_POSITION
+    WHERE 1=1
+    <if test="POSI_CODE != null" >
+      AND POSI_CODE = #{POSI_CODE}
+    </if>
+    <if test="NOT_POSITION_ID != null" >
+      AND POSITION_ID != #{NOT_POSITION_ID}
+    </if>
+  </select>
+  <select id="queryPage" resultType="map" parameterType="map" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM OM_POSITION
+    WHERE 1=1
+  </select>
+  <delete id="delete" parameterType="string" >
+     DELETE OM_POSITION,OM_EMP_POSITION,OM_EMPLOYEE,AC_OPERATOR,AC_OPERATOR_ROLE,AC_OPER_FUNC,OM_EMP_ORG
+     FROM  
+    (
+    	SELECT POSITION_ID FROM OM_POSITION WHERE FIND_IN_SET(OM_POSITION.POSITION_ID, OM_POSITION_QUERY_CHILDREN(#{POSITION_ID}))
+	) T
+	INNER JOIN OM_POSITION
+	ON T.POSITION_ID = OM_POSITION.POSITION_ID
+    
+    LEFT JOIN OM_EMP_POSITION
+    ON OM_EMP_POSITION.POSITION_ID = OM_POSITION.POSITION_ID
+    
+    LEFT JOIN OM_EMPLOYEE
+    ON OM_EMPLOYEE.POSITION = OM_POSITION.POSITION_ID
+    
+    LEFT JOIN OM_EMP_ORG
+    ON OM_EMPLOYEE.EMP_ID = OM_EMP_ORG.EMP_ID
+    
+    LEFT JOIN AC_OPERATOR
+    ON AC_OPERATOR.OPERATOR_ID = OM_EMPLOYEE.OPERATOR_ID
+    
+    LEFT JOIN AC_OPERATOR_ROLE
+    ON AC_OPERATOR_ROLE.OPERATOR_ID = OM_EMPLOYEE.OPERATOR_ID
+    
+    LEFT JOIN AC_OPER_FUNC
+    ON AC_OPER_FUNC.OPERATOR_ID = AC_OPERATOR.OPERATOR_ID
+    
+    
+  </delete>
+  <insert id="insert" parameterType="map" >
+    INSERT INTO OM_POSITION (POSITION_ID, POSI_CODE, POSI_NAME, 
+      POSI_LEVEL, PARENT_POSI_ID, ORG_ID, 
+      POSITION_SEQ, POSI_TYPE, CREATE_TIME, 
+      LAST_UPDATE_TIME, UPDATOR, START_DATE, 
+      END_DATE, STATUS, IS_LEAF
+      )
+    VALUES (#{POSITION_ID}, #{POSI_CODE}, #{POSI_NAME}, 
+      #{POSI_LEVEL}, #{PARENT_POSI_ID}, #{ORG_ID}, 
+      #{POSITION_SEQ}, #{POSI_TYPE}, #{CREATE_TIME}, 
+      #{LAST_UPDATE_TIME}, #{UPDATOR}, #{START_DATE}, 
+      #{END_DATE}, #{STATUS}, #{IS_LEAF}
+      )
+  </insert>
+  
+
+  <update id="update" parameterType="map" >
+   UPDATE OM_POSITION
+    <set >
+      <if test="POSI_CODE != null" >
+        POSI_CODE = #{POSI_CODE},
+      </if>
+      <if test="POSI_NAME != null" >
+        POSI_NAME = #{POSI_NAME},
+      </if>
+      <if test="POSI_LEVEL != null" >
+        POSI_LEVEL = #{POSI_LEVEL},
+      </if>
+      <if test="PARENT_POSI_ID != null" >
+        PARENT_POSI_ID = #{PARENT_POSI_ID},
+      </if>
+      <if test="ORG_ID != null" >
+        ORG_ID = #{ORG_ID},
+      </if>
+      <if test="POSITION_SEQ != null" >
+        POSITION_SEQ = #{POSITION_SEQ},
+      </if>
+      <if test="POSI_TYPE != null" >
+        POSI_TYPE = #{POSI_TYPE},
+      </if>
+      <if test="CREATE_TIME != null" >
+        CREATE_TIME = #{CREATE_TIME},
+      </if>
+      <if test="LAST_UPDATE_TIME != null" >
+        LAST_UPDATE_TIME = #{LAST_UPDATE_TIME},
+      </if>
+      <if test="UPDATOR != null" >
+        UPDATOR = #{UPDATOR},
+      </if>
+      <if test="START_DATE != null" >
+        START_DATE = #{START_DATE},
+      </if>
+      <if test="END_DATE != null" >
+        END_DATE = #{END_DATE},
+      </if>
+      <if test="STATUS != null" >
+        STATUS = #{STATUS},
+      </if>
+      <if test="IS_LEAF != null" >
+        IS_LEAF = #{IS_LEAF},
+      </if>
+    </set>
+    WHERE POSITION_ID = #{POSITION_ID}
+  </update>
+  
+
+</mapper>

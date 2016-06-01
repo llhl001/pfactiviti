@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="acMenuSpace" >
+  <resultMap id="MenuTreeNodeResultMap" type="com.sdyy.base.ac.ac_menu.model.AcMenuTreeNode" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="PID" property="pId" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="ICON_SKIN" property="iconSkin" jdbcType="VARCHAR" />
+    <result column="IS_PARENT" property="isParent" jdbcType="CHAR" />
+    <result column="EXTEND_ATTR" property="extendAttr" jdbcType="VARCHAR" />
+    <result column="EXTEND_ATTR_1" property="extendAttr1" jdbcType="VARCHAR" />
+    
+    <result column="MENU_LABEL" property="menuLabel" jdbcType="VARCHAR" />
+    <result column="MENU_ACTION" property="menuAction" jdbcType="VARCHAR" />
+    <result column="MENU_PARAM" property="menuParam" jdbcType="VARCHAR" />
+    <result column="IS_LEAF" property="isLeaf" jdbcType="CHAR" />
+     <result column="MENU_CSS" property="menuCss" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    MENU_ID, MENU_NAME, MENU_LABEL, MENU_CODE, IS_LEAF,  UI_ENTRY, 
+    MENU_LEVEL, ROOT_ID, PARENT_ID, DISPLAY_ORDER, IMAGE_PATH, EXPAND_PATH, MENU_SEQ, 
+    OPEN_MODE, APP_ID, AC_MENU.FUNC_ID, MENU_CSS, ICON_SKIN,
+    AC_FUNCTION.FUNC_ACTION MENU_ACTION, 
+    AC_FUNCTION.PARA_INFO PARAMETER,
+    AC_FUNCTION.FUNC_NAME FUNC_NAME,
+    (SELECT MENU_NAME FROM AC_MENU P_MENU WHERE P_MENU.MENU_ID=AC_MENU.PARENT_ID ) PARENT_NAME
+  </sql>
+  <select id="get" resultType="map" parameterType="string" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM AC_MENU
+    LEFT JOIN AC_FUNCTION
+    ON AC_MENU.FUNC_ID = AC_FUNCTION.FUNC_ID
+    WHERE MENU_ID = #{MENU_ID}
+  </select>
+  <select id="query" resultType="map" parameterType="map" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM AC_MENU
+    LEFT JOIN AC_FUNCTION
+    ON AC_MENU.FUNC_ID = AC_FUNCTION.FUNC_ID
+    WHERE 1=1
+    <if test="MENU_CODE != null" >
+      AND  MENU_CODE = #{MENU_CODE}
+    </if>
+    <if test="NOT_MENU_ID != null" >
+      AND  MENU_ID != #{NOT_MENU_ID}
+    </if>
+  </select>
+  
+  <select id="queryPage" resultType="map" parameterType="map" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM AC_MENU
+    LEFT JOIN AC_FUNCTION
+    ON AC_MENU.FUNC_ID = AC_FUNCTION.FUNC_ID
+    WHERE 1=1
+  </select>
+  <delete id="delete" parameterType="string" >
+    DELETE AC_MENU
+    FROM 
+    (
+    	SELECT MENU_ID FROM AC_MENU WHERE FIND_IN_SET(MENU_ID, AC_MENU_QUERY_CHILDREN(#{MENU_ID}))
+	) T
+	INNER JOIN AC_MENU
+	ON T.MENU_ID = AC_MENU.MENU_ID
+    <!-- WHERE FIND_IN_SET(MENU_ID, AC_MENU_QUERY_CHILDREN(#{MENU_ID})) -->
+  </delete>
+  <insert id="insert" parameterType="map" >
+    INSERT INTO AC_MENU (MENU_ID, MENU_NAME, MENU_LABEL, 
+      MENU_CODE, IS_LEAF, MENU_ACTION, 
+      PARAMETER, UI_ENTRY, MENU_LEVEL, 
+      ROOT_ID, PARENT_ID, DISPLAY_ORDER, 
+      IMAGE_PATH, EXPAND_PATH, MENU_SEQ, 
+      OPEN_MODE, APP_ID, FUNC_ID, MENU_CSS, ICON_SKIN
+      )
+    VALUES (#{MENU_ID}, #{MENU_NAME}, #{MENU_LABEL}, 
+      #{MENU_CODE}, #{IS_LEAF}, #{MENU_ACTION}, 
+      #{PARAMETER}, #{UI_ENTRY}, #{MENU_LEVEL}, 
+      #{ROOT_ID}, #{PARENT_ID}, #{DISPLAY_ORDER}, 
+      #{IMAGE_PATH}, #{EXPAND_PATH}, #{MENU_SEQ}, 
+      #{OPEN_MODE}, #{APP_ID}, #{FUNC_ID}, #{MENU_CSS}, #{ICON_SKIN}
+      )
+  </insert>
+  
+
+  <update id="update" parameterType="map" >
+   UPDATE AC_MENU
+    <set >
+      <if test="MENU_NAME != null" >
+        MENU_NAME = #{MENU_NAME},
+      </if>
+      <if test="MENU_LABEL != null" >
+        MENU_LABEL = #{MENU_LABEL},
+      </if>
+      <if test="MENU_CODE != null" >
+        MENU_CODE = #{MENU_CODE},
+      </if>
+      <if test="IS_LEAF != null" >
+        IS_LEAF = #{IS_LEAF},
+      </if>
+      <if test="MENU_ACTION != null" >
+        MENU_ACTION = #{MENU_ACTION},
+      </if>
+      <if test="PARAMETER != null" >
+        PARAMETER = #{PARAMETER},
+      </if>
+      <if test="UI_ENTRY != null" >
+        UI_ENTRY = #{UI_ENTRY},
+      </if>
+      <if test="MENU_LEVEL != null" >
+        MENU_LEVEL = #{MENU_LEVEL},
+      </if>
+      <if test="ROOT_ID != null" >
+        ROOT_ID = #{ROOT_ID},
+      </if>
+      <if test="PARENT_ID != null" >
+        PARENT_ID = #{PARENT_ID},
+      </if>
+      <if test="DISPLAY_ORDER != null" >
+        DISPLAY_ORDER = #{DISPLAY_ORDER},
+      </if>
+      <if test="IMAGE_PATH != null" >
+        IMAGE_PATH = #{IMAGE_PATH},
+      </if>
+      <if test="EXPAND_PATH != null" >
+        EXPAND_PATH = #{EXPAND_PATH},
+      </if>
+      <if test="MENU_SEQ != null" >
+        MENU_SEQ = #{MENU_SEQ},
+      </if>
+      <if test="OPEN_MODE != null" >
+        OPEN_MODE = #{OPEN_MODE},
+      </if>
+      <if test="APP_ID != null" >
+        APP_ID = #{APP_ID},
+      </if>
+      <if test="FUNC_ID != null" >
+        FUNC_ID = #{FUNC_ID},
+      </if>
+      <if test="MENU_CSS != null" >
+        MENU_CSS = #{MENU_CSS},
+      </if>
+      <if test="ICON_SKIN != null" >
+        ICON_SKIN = #{ICON_SKIN},
+      </if>
+    </set>
+    WHERE MENU_ID = #{MENU_ID}
+  </update>
+   <select id="queryChildrenTreeNodes" resultMap="MenuTreeNodeResultMap" parameterType="string" >
+   SELECT * FROM (
+    (
+		SELECT
+			APP_ID ID,
+			'-1' PID,
+			APP_CODE CODE,
+			'菜单管理' NAME,
+			'ROOT' TYPE,
+			'FRoot' ICON_SKIN,
+			'1' IS_PARENT,
+			APP_ID EXTEND_ATTR,
+			'' EXTEND_ATTR_1,
+			
+			APP_NAME MENU_LABEL,
+			'' MENU_ACTION,
+			'' MENU_PARAM,
+			'0' IS_LEAF,
+			'' MENU_CSS
+		FROM
+			AC_APPLICATION
+		WHERE
+			(
+				APP_ID = 'root'
+			)
+	)
+	UNION ALL
+		(
+			SELECT
+				APP_ID ID,
+				'root' PID,
+				APP_CODE CODE,
+				APP_NAME NAME,
+				'APP' TYPE,
+				'FIcon01' ICON_SKIN,
+				'1' IS_PARENT,
+				APP_ID EXTEND_ATTR,
+				'' EXTEND_ATTR_1,
+	
+				APP_NAME MENU_LABEL,
+				'' MENU_ACTION,
+				'' MENU_PARAM,
+				'0' IS_LEAF,
+				'' MENU_CSS
+			FROM
+				AC_APPLICATION
+			WHERE
+				(
+					APP_ID != 'root'
+				)
+		)
+	UNION ALL(
+		SELECT
+			MENU.MENU_ID ID,
+			MENU.PARENT_ID PID,
+			MENU.DISPLAY_ORDER CODE,
+			MENU.MENU_NAME NAME,
+			CASE MENU.IS_LEAF WHEN '0' THEN	'PARENT_MENU' ELSE 'LEAF_MENU' END  TYPE,
+			IFNULL(MENU.ICON_SKIN,(CASE MENU.IS_LEAF WHEN '0' THEN 'RFIcon02' ELSE 'RFicon03' END)) ICON_SKIN,
+		    CASE MENU.IS_LEAF WHEN '0' THEN	'1' ELSE '0' END IS_PARENT,
+			MENU.APP_ID EXTEND_ATTR,
+			<!-- CONCAT(FUNC.FUNC_ACTION,FUNC.PARA_INFO) EXTEND_ATTR_1, -->
+			'' EXTEND_ATTR_1,
+			MENU.MENU_LABEL MENU_LABEL,
+			FUNC.FUNC_ACTION MENU_ACTION,
+			FUNC.PARA_INFO MENU_PARAM,
+			IS_LEAF,
+			MENU_CSS
+		FROM
+			AC_MENU MENU
+		LEFT JOIN	AC_FUNCTION FUNC
+		ON MENU.FUNC_ID = FUNC.FUNC_ID
+		WHERE 1=1
+		<if test="_parameter != null" >
+			AND MENU.PARENT_ID = #{_parameter}
+		</if>
+		)
+	) T
+	WHERE 1=1
+	<if test="_parameter == null" >
+		AND T.PID in ('-1','root')
+	</if>
+	<if test="_parameter != null" >
+		AND T.PID = #{_parameter}
+	</if>
+	ORDER BY T.CODE
+  </select>
+  <select id="queryPermitted" resultType="map" parameterType="map">
+  	SELECT
+	MENU_ID,
+	MENU_LABEL,
+	MENU_CSS,
+	IS_LEAF,
+	PARENT_ID,
+	MENU_LEVEL,
+	AC_FUNCTION.FUNC_ACTION MENU_ACTION,
+	AC_FUNCTION.PARA_INFO PARAMETER
+	<!-- 先找出所有有权限的资源的FUNC_ID，再关联出所有的叶子菜单节点的MENU_ID，再通过这些MENU_ID 找到所有的父级菜单MENU_ID 拼接起来 -->
+	FROM
+		(	<!-- 递归查询包含自己在内的所有父级菜单的ID，拼成FIND_IN_SET的参数 -->
+			SELECT
+				GROUP_CONCAT(AC_MENU.MENU_ID) MENU_IDS
+			FROM
+				AC_MENU
+			INNER JOIN 
+				(	<!-- 获取所有有权限的资源ID（角色-资源；操作员-资源） -->
+					SELECT
+						FUNC_ID
+					FROM
+						AC_ROLE_FUNC
+					INNER JOIN AC_OPERATOR_ROLE ON AC_OPERATOR_ROLE.ROLE_ID = AC_ROLE_FUNC.ROLE_ID
+					WHERE
+						1=1
+						<if test="OPERATOR_ID != null" >
+							AND AC_OPERATOR_ROLE.OPERATOR_ID = #{OPERATOR_ID}
+						</if>
+					GROUP BY
+						FUNC_ID
+					UNION ALL
+						SELECT
+							FUNC_ID
+						FROM
+							AC_OPER_FUNC
+						WHERE
+							1=1
+							<if test="OPERATOR_ID != null" >
+								AND AC_OPER_FUNC.OPERATOR_ID = #{OPERATOR_ID}
+							</if>
+					) T_AC_FUNC
+			ON T_AC_FUNC.FUNC_ID = AC_MENU.FUNC_ID
+		) T
+		<!-- 获取所有菜单节点 -->
+	INNER JOIN AC_MENU ON FIND_IN_SET(
+		AC_MENU.MENU_ID,
+		AC_MENU_QUERY_PARENTS (T.MENU_IDS)
+	)
+	LEFT JOIN AC_FUNCTION ON AC_MENU.FUNC_ID = AC_FUNCTION.FUNC_ID
+	WHERE 1=1
+	<if test="PARENT_ID != null" >
+		<!-- AND AC_MENU.PARENT_ID = #{PARENT_ID} -->
+		AND FIND_IN_SET(MENU_ID, AC_MENU_QUERY_CHILDREN(#{PARENT_ID}))
+	</if>
+	<if test="MENU_LEVEL != null" >
+		AND AC_MENU.MENU_LEVEL = #{MENU_LEVEL}
+	</if>
+	<if test="APP_ID != null" >
+		AND AC_MENU.APP_ID = #{APP_ID}
+	</if>
+	ORDER BY
+	AC_MENU.MENU_LEVEL,
+	AC_MENU.DISPLAY_ORDER
+	  	
+  </select>
+</mapper>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="omEmpGroupSpace" >
+  
+  <sql id="Base_Column_List" >
+    GROUP_ID, EMP_ID
+  </sql>
+  <delete id="delete" parameterType="map" >
+    DELETE FROM OM_EMP_GROUP
+    WHERE 1=1
+    <if test="GROUP_ID != null" >
+      AND GROUP_ID = #{GROUP_ID}
+    </if>
+    <if test="EMP_ID != null" >
+      AND EMP_ID = #{EMP_ID}
+    </if>
+    <if test="notInEmpIds != null and notInEmpIds''" >
+      AND FIND_IN_SET(EMP_ID,#{notInEmpIds})
+    </if>
+  </delete>
+  <insert id="insert" parameterType="map" >
+    INSERT INTO OM_EMP_GROUP (GROUP_ID, EMP_ID)
+    VALUES (#{GROUP_ID}, #{EMP_ID})
+  </insert>
+  
+   <select id="query" resultType="map" parameterType="map" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM OM_EMP_GROUP
+    WHERE 1=1
+    <if test="GROUP_ID != null" >
+      AND GROUP_ID = #{GROUP_ID}
+    </if>
+    <if test="EMP_ID != null" >
+      AND EMP_ID = #{EMP_ID}
+    </if>
+  </select>
+
+</mapper>

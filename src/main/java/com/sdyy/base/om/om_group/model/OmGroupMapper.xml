@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="omGroupSpace" >
+	<resultMap id="GroupTreeNodeResultMap" type="com.sdyy.base.om.om_group.model.OmGroupTreeNode" >
+	    <id column="ID" property="id" jdbcType="VARCHAR" />
+	    <result column="PID" property="pId" jdbcType="VARCHAR" />
+	    <result column="NAME" property="name" jdbcType="VARCHAR" />
+	    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+	    <result column="ICON_SKIN" property="iconSkin" jdbcType="VARCHAR" />
+	    <result column="IS_PARENT" property="isParent" jdbcType="CHAR" />
+	    <result column="EXTEND_ATTR" property="extendAttr" jdbcType="VARCHAR" />
+	    <result column="EXTEND_ATTR_1" property="extendAttr1" jdbcType="VARCHAR" />
+	  <!--  <result column="GROUP_LABEL" property="groupLabel" jdbcType="VARCHAR" />
+ 	    <result column="GROUP_ACTION" property="groupAction" jdbcType="VARCHAR" />
+	    <result column="GROUP_PARAM" property="groupParam" jdbcType="VARCHAR" /> -->
+	    <result column="IS_LEAF" property="isLeaf" jdbcType="CHAR" />
+	</resultMap>
+	<sql id="Base_Column_List" >
+    	GROUP_ID, ORG_ID, PARENT_GROUP_ID, GROUP_LEVEL, GROUP_NAME, GROUP_DESC, GROUP_TYPE, 
+    	GROUP_SEQ, START_DATE, END_DATE, GROUP_STATUS, MANAGER, CREATE_TIME, LASTUP_DATE, 
+    	UPDATOR, IS_LEAF
+	</sql>
+	<select id="get" resultType="map" parameterType="string" >
+		SELECT
+    <include refid="Base_Column_List" />
+    	FROM OM_GROUP
+    	WHERE GROUP_ID = #{GROUP_ID}
+	</select>
+	
+	<select id="query" resultType="map" parameterType="map" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM OM_GROUP
+    WHERE 1=1
+    <if test="ORG_ID != null" >
+      AND ORG_ID = #{ORG_ID}
+    </if>
+  </select>
+  <select id="queryUpdate" resultType="map" parameterType="map" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM AC_APPLICATION
+    WHERE GROUP_ID = #{GROUP_ID}
+    <if test="ORG_ID != null" >
+      AND ORG_ID = #{ORG_ID}
+    </if>
+  </select>
+  
+	<select id="queryPage" resultType="map" parameterType="map" >
+    	SELECT
+    <include refid="Base_Column_List" />
+    	FROM OM_GROUP
+    	WHERE 1=1
+	</select>
+	<delete id="delete" parameterType="string" >
+    	DELETE OM_GROUP,OM_EMP_GROUP
+    	FROM 
+		    (
+		    	SELECT GROUP_ID FROM OM_GROUP WHERE FIND_IN_SET(GROUP_ID, OM_GROUP_QUERY_CHILDREN(#{GROUP_ID}))
+			) T
+			INNER JOIN OM_GROUP
+			ON T.GROUP_ID = OM_GROUP.GROUP_ID
+			LEFT JOIN OM_EMP_GROUP
+			ON OM_EMP_GROUP.GROUP_ID = OM_GROUP.GROUP_ID
+	</delete>
+	<insert id="insert" parameterType="map" >
+    	INSERT INTO OM_GROUP (GROUP_ID, ORG_ID, PARENT_GROUP_ID, 
+      	GROUP_LEVEL, GROUP_NAME, GROUP_DESC, 
+      	GROUP_TYPE, GROUP_SEQ, START_DATE, 
+      	END_DATE, GROUP_STATUS, MANAGER, 
+      	CREATE_TIME, LASTUP_DATE, UPDATOR, 
+      	IS_LEAF)
+    	VALUES (#{GROUP_ID}, #{ORG_ID}, #{PARENT_GROUP_ID}, 
+      	#{GROUP_LEVEL}, #{GROUP_NAME}, #{GROUP_DESC}, 
+      	#{GROUP_TYPE}, #{GROUP_SEQ}, #{START_DATE}, 
+      	#{END_DATE}, #{GROUP_STATUS}, #{MANAGER}, 
+		#{CREATE_TIME}, #{LASTUP_DATE}, #{UPDATOR}, 
+      	#{IS_LEAF})
+	</insert>
+
+  <update id="update" parameterType="map" >
+   UPDATE OM_GROUP
+    <set >
+      <if test="ORG_ID != null" >
+        ORG_ID = #{ORG_ID},
+      </if>
+      <if test="PARENT_GROUP_ID != null" >
+        PARENT_GROUP_ID = #{PARENT_GROUP_ID},
+      </if>
+      <if test="GROUP_LEVEL != null" >
+        GROUP_LEVEL = #{GROUP_LEVEL},
+      </if>
+      <if test="GROUP_NAME != null" >
+        GROUP_NAME = #{GROUP_NAME},
+      </if>
+      <if test="GROUP_DESC != null" >
+        GROUP_DESC = #{GROUP_DESC},
+      </if>
+      <if test="GROUP_TYPE != null" >
+        GROUP_TYPE = #{GROUP_TYPE},
+      </if>
+      <if test="GROUP_SEQ != null" >
+        GROUP_SEQ = #{GROUP_SEQ},
+      </if>
+      <if test="START_DATE != null" >
+        START_DATE = #{START_DATE},
+      </if>
+      <if test="END_DATE != null" >
+        END_DATE = #{END_DATE},
+      </if>
+      <if test="GROUP_STATUS != null" >
+        GROUP_STATUS = #{GROUP_STATUS},
+      </if>
+      <if test="MANAGER != null" >
+        MANAGER = #{MANAGER},
+      </if>
+      <if test="CREATE_TIME != null" >
+        CREATE_TIME = #{CREATE_TIME},
+      </if>
+      <if test="LASTUP_DATE != null" >
+        LASTUP_DATE = #{LASTUP_DATE},
+      </if>
+      <if test="UPDATOR != null" >
+        UPDATOR = #{UPDATOR},
+      </if>
+      <if test="IS_LEAF != null" >
+        IS_LEAF = #{IS_LEAF},
+      </if>
+    </set>
+    WHERE GROUP_ID = #{GROUP_ID}
+  </update>
+  
+<select id="queryChildrenTreeNodes" resultMap="GroupTreeNodeResultMap" parameterType="string" >
+	SELECT * FROM (       
+		(SELECT GROUP_ID ID,
+			'-1' PID,ORG_ID CODE,'工作组树' NAME,'ROOT' TYPE,'FRoot' ICON_SKIN,
+			'1' IS_PARENT,	GROUP_LEVEL EXTEND_ATTR,'' EXTEND_ATTR_1,
+			'0' IS_LEAF
+			FROM OM_GROUP WHERE GROUP_ID = 'root')
+		UNION ALL
+		(SELECT GROUP_ID ID,PARENT_GROUP_ID PID,ORG_ID CODE,Group_NAME NAME,
+				'group' TYPE,
+		(CASE GROUP_LEVEL WHEN '1' THEN 'FIcon01' ELSE 'RFIcon02' END) ICON_SKIN,
+				'1' IS_PARENT,GROUP_LEVEL EXTEND_ATTR,'' EXTEND_ATTR_1,
+				IS_LEAF
+			FROM OM_GROUP WHERE GROUP_ID != 'root')
+		UNION ALL
+		(SELECT
+			EMP.EMP_ID ID,TEMP.GROUP_ID PID,EMP.EMP_CODE CODE,EMP.EMP_NAME NAME,'LEAF' TYPE,
+			'RFicon03' ICON_SKIN,'0' IS_PARENT,EMP.EMP_ID EXTEND_ATTR,
+			'' EXTEND_ATTR_1,'1' IS_LEAF
+		FROM OM_EMPLOYEE EMP,OM_EMP_GROUP TEMP
+		WHERE EMP.EMP_ID=TEMP.EMP_ID 
+		) 
+	) T
+	WHERE 1=1
+	<if test="_parameter == null" >
+		AND T.PID in ('-1','root')
+	</if>
+	<if test="_parameter != null" >
+		AND T.PID = #{_parameter}
+	</if>
+	ORDER BY T.CODE
+  </select>
+</mapper>

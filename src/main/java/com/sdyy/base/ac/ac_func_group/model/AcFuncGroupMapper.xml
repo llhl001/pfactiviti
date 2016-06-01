@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="acFuncGroupSpace" >
+  <sql id="Base_Column_List" >
+    FUNC_GROUP_ID, APP_ID, FUNC_GROUP_NAME, PARENT_GROUP, GROUP_LEVEL, FUNC_GROUP_SEQ, IS_LEAF,
+    (SELECT FUNC_GROUP_NAME FROM AC_FUNC_GROUP P_FG WHERE P_FG.FUNC_GROUP_ID=AC_FUNC_GROUP.PARENT_GROUP ) PARENT_GROUP_NAME
+  </sql>
+  <select id="get" resultType="map" parameterType="string" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM AC_FUNC_GROUP
+    WHERE FUNC_GROUP_ID = #{FUNC_GROUP_ID}
+  </select>
+  <select id="query" resultType="map" parameterType="map" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM AC_FUNC_GROUP
+    WHERE 1=1
+  </select>
+  <select id="queryPage" resultType="map" parameterType="map" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM AC_FUNC_GROUP
+    WHERE 1=1
+  </select>
+  <delete id="delete" parameterType="string" >
+    DELETE  AC_FUNC_GROUP,AC_FUNCTION,AC_MENU,AC_ROLE_FUNC,AC_OPER_FUNC
+    FROM 
+    (
+		SELECT FUNC_GROUP_ID FROM AC_FUNC_GROUP WHERE FIND_IN_SET(AC_FUNC_GROUP.FUNC_GROUP_ID, AC_FUNC_GROUP_QUERY_CHILDREN(#{FUNC_GROUP_ID}))
+	) T
+	INNER JOIN AC_FUNC_GROUP
+    ON T.FUNC_GROUP_ID = AC_FUNC_GROUP.FUNC_GROUP_ID
+    LEFT JOIN AC_FUNCTION
+    ON AC_FUNCTION.FUNC_GROUP_ID = AC_FUNC_GROUP.FUNC_GROUP_ID
+    LEFT JOIN AC_MENU
+    ON AC_FUNCTION.FUNC_ID = AC_MENU.FUNC_ID
+    LEFT JOIN AC_ROLE_FUNC
+    ON AC_FUNCTION.FUNC_ID = AC_ROLE_FUNC.FUNC_ID
+    LEFT JOIN AC_OPER_FUNC
+    ON AC_FUNCTION.FUNC_ID = AC_OPER_FUNC.FUNC_ID
+  </delete>
+  <insert id="insert" parameterType="map" >
+    INSERT INTO AC_FUNC_GROUP (FUNC_GROUP_ID, APP_ID, FUNC_GROUP_NAME, 
+      PARENT_GROUP, GROUP_LEVEL, FUNC_GROUP_SEQ, 
+      IS_LEAF)
+    VALUES (#{FUNC_GROUP_ID}, #{APP_ID}, #{FUNC_GROUP_NAME}, 
+      #{PARENT_GROUP}, #{GROUP_LEVEL}, #{FUNC_GROUP_SEQ}, 
+      #{IS_LEAF})
+  </insert>
+  
+
+  <update id="update" parameterType="map" >
+   UPDATE AC_FUNC_GROUP
+    <set >
+      <if test="APP_ID != null" >
+        APP_ID = #{APP_ID},
+      </if>
+      <if test="FUNC_GROUP_NAME != null" >
+        FUNC_GROUP_NAME = #{FUNC_GROUP_NAME},
+      </if>
+      <if test="PARENT_GROUP != null" >
+        PARENT_GROUP = #{PARENT_GROUP},
+      </if>
+      <if test="GROUP_LEVEL != null" >
+        GROUP_LEVEL = #{GROUP_LEVEL},
+      </if>
+      <if test="FUNC_GROUP_SEQ != null" >
+        FUNC_GROUP_SEQ = #{FUNC_GROUP_SEQ},
+      </if>
+      <if test="IS_LEAF != null" >
+        IS_LEAF = #{IS_LEAF},
+      </if>
+    </set>
+    WHERE FUNC_GROUP_ID = #{FUNC_GROUP_ID}
+  </update>
+  
+
+</mapper>

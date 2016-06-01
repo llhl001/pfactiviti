@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="acOperatorSpace" >
+  
+
+  <sql id="Base_Column_List" >
+    OPERATOR_ID, USER_ID, PASSWORD, INVAL_DATE, OPERATOR_NAME, AUTH_MODE, STATUS, UNLOCK_TIME, 
+    MENU_TYPE, LAST_LOGIN, ERR_COUNT, START_DATE, END_DATE, VALID_TIME, MAC_CODE, IP_ADDRESS, 
+    EMAIL
+  </sql>
+  <select id="get" resultType="map" parameterType="string" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM AC_OPERATOR
+    WHERE OPERATOR_ID = #{OPERATOR_ID}
+  </select>
+  <select id="query" resultType="map" parameterType="map" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM AC_OPERATOR
+    WHERE 1=1
+    <if test="OPERATOR_ID != null">
+		AND OPERATOR_ID = #{OPERATOR_ID}
+	</if>
+	<if test="NOT_OPERATOR_ID != null">
+		AND OPERATOR_ID != #{NOT_OPERATOR_ID}
+	</if>
+    <if test="USER_ID != null">
+		AND USER_ID = #{USER_ID}
+	</if>
+	<if test="INVAL_DATE != null">
+		AND INVAL_DATE = #{INVAL_DATE}
+	</if>
+	<if test="OPERATOR_NAME != null">
+		AND OPERATOR_NAME = #{OPERATOR_NAME}
+	</if>
+	<if test="AUTH_MODE != null">
+		AND AUTH_MODE = #{AUTH_MODE}
+	</if>
+	<if test="STATUS != null">
+		AND STATUS = #{STATUS}
+	</if>
+	<if test="UNLOCK_TIME != null">
+		AND UNLOCK_TIME = #{UNLOCK_TIME}
+	</if>
+	<if test="MENU_TYPE != null">
+		AND MENU_TYPE = #{MENU_TYPE}
+	</if>
+	<if test="LAST_LOGIN != null">
+		AND LAST_LOGIN = #{LAST_LOGIN}
+	</if>
+	<if test="ERR_COUNT != null">
+		AND ERR_COUNT = #{ERR_COUNT}
+	</if>
+	<if test="START_DATE != null">
+		AND START_DATE = #{START_DATE}
+	</if>
+	<if test="END_DATE != null">
+		AND END_DATE = #{END_DATE}
+	</if>
+	<if test="VALID_TIME != null">
+		AND VALID_TIME = #{VALID_TIME}
+	</if>
+	<if test="MAC_CODE != null">
+		AND MAC_CODE = #{MAC_CODE}
+	</if>
+	<if test="IP_ADDRESS != null">
+		AND IP_ADDRESS = #{IP_ADDRESS}
+	</if>
+	<if test="EMAIL != null">
+		AND EMAIL = #{EMAIL}
+	</if>
+  </select>
+  <select id="queryPage" resultType="map" parameterType="map" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM AC_OPERATOR
+    WHERE 1=1
+  </select>
+  <delete id="delete" parameterType="string" >
+    DELETE FROM AC_OPERATOR
+    WHERE OPERATOR_ID = #{OPERATOR_ID}
+  </delete>
+  <insert id="insert" parameterType="map" >
+    INSERT INTO AC_OPERATOR (OPERATOR_ID, USER_ID, PASSWORD, 
+      INVAL_DATE, OPERATOR_NAME, AUTH_MODE, 
+      STATUS, UNLOCK_TIME, MENU_TYPE, 
+      LAST_LOGIN, ERR_COUNT, START_DATE, 
+      END_DATE, VALID_TIME, MAC_CODE, 
+      IP_ADDRESS, EMAIL)
+    VALUES (#{OPERATOR_ID}, #{USER_ID}, #{PASSWORD}, 
+      #{INVAL_DATE}, #{OPERATOR_NAME}, #{AUTH_MODE}, 
+      #{STATUS}, #{UNLOCK_TIME}, #{MENU_TYPE}, 
+      #{LAST_LOGIN}, #{ERR_COUNT}, #{START_DATE}, 
+      #{END_DATE}, #{VALID_TIME}, #{MAC_CODE}, 
+      #{IP_ADDRESS}, #{EMAIL})
+  </insert>
+  
+
+  <update id="update" parameterType="map" >
+   UPDATE AC_OPERATOR
+    <set >
+      <if test="USER_ID != null" >
+        USER_ID = #{USER_ID},
+      </if>
+      <if test="PASSWORD != null" >
+        PASSWORD = #{PASSWORD},
+      </if>
+      <if test="INVAL_DATE != null" >
+        INVAL_DATE = #{INVAL_DATE},
+      </if>
+      <if test="OPERATOR_NAME != null" >
+        OPERATOR_NAME = #{OPERATOR_NAME},
+      </if>
+      <if test="AUTH_MODE != null" >
+        AUTH_MODE = #{AUTH_MODE},
+      </if>
+      <if test="STATUS != null" >
+        STATUS = #{STATUS},
+      </if>
+      <if test="UNLOCK_TIME != null" >
+        UNLOCK_TIME = #{UNLOCK_TIME},
+      </if>
+      <if test="MENU_TYPE != null" >
+        MENU_TYPE = #{MENU_TYPE},
+      </if>
+      <if test="LAST_LOGIN != null" >
+        LAST_LOGIN = #{LAST_LOGIN},
+      </if>
+      <if test="ERR_COUNT != null" >
+        ERR_COUNT = #{ERR_COUNT},
+      </if>
+      <if test="START_DATE != null" >
+        START_DATE = #{START_DATE},
+      </if>
+      <if test="END_DATE != null" >
+        END_DATE = #{END_DATE},
+      </if>
+      <if test="VALID_TIME != null" >
+        VALID_TIME = #{VALID_TIME},
+      </if>
+      <if test="MAC_CODE != null" >
+        MAC_CODE = #{MAC_CODE},
+      </if>
+      <if test="IP_ADDRESS != null" >
+        IP_ADDRESS = #{IP_ADDRESS},
+      </if>
+      <if test="EMAIL != null" >
+        EMAIL = #{EMAIL},
+      </if>
+    </set>
+    WHERE OPERATOR_ID = #{OPERATOR_ID}
+  </update>
+  
+
+</mapper>

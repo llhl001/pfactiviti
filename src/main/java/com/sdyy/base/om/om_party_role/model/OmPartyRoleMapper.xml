@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="omPartyRoleSpace" >
+  <delete id="delete" parameterType="string" >
+    DELETE FROM OM_PARTY_ROLE
+    WHERE ROLE_ID = #{ROLE_ID}
+      AND PARTY_TYPE = #{PARTY_TYPE}
+      AND PARTYID = #{PARTYID}
+  </delete>
+  <delete id="batchDelete" parameterType="map" >
+    DELETE FROM OM_PARTY_ROLE
+    WHERE 1=2
+    <if test="ROLE_IDS != null" >
+      OR ROLE_ID IN (${ROLE_IDS})
+    </if>
+  </delete>
+  <insert id="insert" parameterType="map" >
+    INSERT INTO OM_PARTY_ROLE (ROLE_ID, PARTY_TYPE, PARTYID
+      )
+    VALUES (#{ROLE_ID}, #{PARTY_TYPE}, #{PARTYID}
+      )
+  </insert>
+  
+
+</mapper>

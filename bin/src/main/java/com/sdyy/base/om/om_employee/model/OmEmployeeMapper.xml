@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="omEmployeeSpace" >
+  <resultMap id="ZTreeNodeResultMap" type="com.sdyy.common.zTree.ZTreeNode" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="PID" property="pId" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="ICON_SKIN" property="iconSkin" jdbcType="VARCHAR" />
+    <result column="IS_PARENT" property="isParent" jdbcType="CHAR" />
+    <result column="EXTEND_ATTR" property="extendAttr" jdbcType="VARCHAR" />
+    <result column="EXTEND_ATTR_1" property="extendAttr1" jdbcType="VARCHAR" />
+    <result column="CHECKED" property="checked" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    EMP_ID, EMP_CODE, OPERATOR_ID, USER_ID, EMP_NAME, REAL_NAME, GENDER, BIRTH_DATE, 
+    POSITION, EMP_STATUS, CARD_TYPE, CARD_NO, IN_DATE, OUT_DATE, O_TEL, O_ADDRESS, O_ZIP_CODE, 
+    O_EMAIL, FAX_NO, MOBILE_NO, MSN, H_TEL, H_ADDRESS, H_ZIP_CODE, P_EMAIL, PARTY, DEGREE, 
+    D_SUPERVISOR, SPECIALTY, WORK_EXP, REG_DATE, CREATE_TIME, LAST_UPDATE_TIME, ORG_ID_LIST, 
+    ORG_ID, REMARK
+  </sql>
+  <select id="get" resultType="map" parameterType="string" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM OM_EMPLOYEE
+    WHERE EMP_ID = #{EMP_ID}
+  </select>
+  <select id="query" resultType="map" parameterType="map" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM OM_EMPLOYEE
+    WHERE 1=1
+  </select>
+  <select id="queryPage" resultType="map" parameterType="map" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM OM_EMPLOYEE
+    WHERE 1=1
+  </select>
+  <delete id="delete" parameterType="string" >
+    DELETE OM_EMP_POSITION,OM_EMPLOYEE,AC_OPERATOR,AC_OPERATOR_ROLE,AC_OPER_FUNC,OM_EMP_ORG,OM_EMP_GROUP
+    FROM OM_EMPLOYEE
+    
+    LEFT JOIN OM_EMP_GROUP
+    ON OM_EMP_GROUP.EMP_ID = OM_EMPLOYEE.EMP_ID
+    
+    LEFT JOIN OM_EMP_POSITION
+    ON OM_EMP_POSITION.EMP_ID = OM_EMPLOYEE.EMP_ID
+    
+    LEFT JOIN OM_EMP_ORG
+    ON OM_EMPLOYEE.EMP_ID = OM_EMP_ORG.EMP_ID
+    
+    LEFT JOIN AC_OPERATOR
+    ON AC_OPERATOR.OPERATOR_ID = OM_EMPLOYEE.OPERATOR_ID
+    
+    LEFT JOIN AC_OPERATOR_ROLE
+    ON AC_OPERATOR_ROLE.OPERATOR_ID = OM_EMPLOYEE.OPERATOR_ID
+    
+    LEFT JOIN AC_OPER_FUNC
+    ON AC_OPER_FUNC.OPERATOR_ID = AC_OPERATOR.OPERATOR_ID
+    
+    WHERE OM_EMPLOYEE.EMP_ID = #{EMP_ID}
+  </delete>
+  <insert id="insert" parameterType="map" >
+    INSERT INTO OM_EMPLOYEE (EMP_ID, EMP_CODE, OPERATOR_ID, 
+      USER_ID, EMP_NAME, REAL_NAME, 
+      GENDER, BIRTH_DATE, POSITION, 
+      EMP_STATUS, CARD_TYPE, CARD_NO, 
+      IN_DATE, OUT_DATE, O_TEL, 
+      O_ADDRESS, O_ZIP_CODE, O_EMAIL, 
+      FAX_NO, MOBILE_NO, MSN, 
+      H_TEL, H_ADDRESS, H_ZIP_CODE, 
+      P_EMAIL, PARTY, DEGREE, 
+      D_SUPERVISOR, SPECIALTY, WORK_EXP, 
+      REG_DATE, CREATE_TIME, LAST_UPDATE_TIME, 
+      ORG_ID_LIST, ORG_ID, REMARK
+      )
+    VALUES (#{EMP_ID}, #{EMP_CODE}, #{OPERATOR_ID}, 
+      #{USER_ID}, #{EMP_NAME}, #{REAL_NAME}, 
+      #{GENDER}, #{BIRTH_DATE}, #{POSITION}, 
+      #{EMP_STATUS}, #{CARD_TYPE}, #{CARD_NO}, 
+      #{IN_DATE}, #{OUT_DATE}, #{O_TEL}, 
+      #{O_ADDRESS}, #{O_ZIPCODE}, #{O_EMAIL}, 
+      #{FAX_NO}, #{MOBILE_NO}, #{MSN}, 
+      #{H_TEL}, #{H_ADDRESS}, #{H_ZIP_CODE}, 
+      #{P_EMAIL}, #{PARTY}, #{DEGREE}, 
+      #{D_SUPERVISOR}, #{SPECIALTY}, #{WORK_EXP}, 
+      #{REG_DATE}, #{CREATE_TIME}, #{LAST_UPDATE_TIME}, 
+      #{ORG_ID_LIST}, #{ORG_ID}, #{REMARK}
+      )
+  </insert>
+  
+
+  <update id="update" parameterType="map" >
+   UPDATE OM_EMPLOYEE
+    <set >
+      <if test="EMP_CODE != null" >
+        EMP_CODE = #{EMP_CODE},
+      </if>
+      <if test="OPERATOR_ID != null" >
+        OPERATOR_ID = #{OPERATOR_ID},
+      </if>
+      <if test="USER_ID != null" >
+        USER_ID = #{USER_ID},
+      </if>
+      <if test="EMP_NAME != null" >
+        EMP_NAME = #{EMP_NAME},
+      </if>
+      <if test="REAL_NAME != null" >
+        REAL_NAME = #{REAL_NAME},
+      </if>
+      <if test="GENDER != null" >
+        GENDER = #{GENDER},
+      </if>
+      <if test="BIRTH_DATE != null" >
+        BIRTH_DATE = #{BIRTH_DATE},
+      </if>
+      <if test="POSITION != null" >
+        POSITION = #{POSITION},
+      </if>
+      <if test="EMP_STATUS != null" >
+        EMP_STATUS = #{EMP_STATUS},
+      </if>
+      <if test="CARD_TYPE != null" >
+        CARD_TYPE = #{CARD_TYPE},
+      </if>
+      <if test="CARD_NO != null" >
+        CARD_NO = #{CARD_NO},
+      </if>
+      <if test="IN_DATE != null" >
+        IN_DATE = #{IN_DATE},
+      </if>
+      <if test="OUT_DATE != null" >
+        OUT_DATE = #{OUT_DATE},
+      </if>
+      <if test="O_TEL != null" >
+        O_TEL = #{O_TEL},
+      </if>
+      <if test="O_ADDRESS != null" >
+        O_ADDRESS = #{O_ADDRESS},
+      </if>
+      <if test="O_ZIP_CODE != null" >
+        O_ZIP_CODE = #{O_ZIP_CODE},
+      </if>
+      <if test="O_EMAIL != null" >
+        O_EMAIL = #{O_EMAIL},
+      </if>
+      <if test="FAX_NO != null" >
+        FAX_NO = #{FAX_NO},
+      </if>
+      <if test="MOBILE_NO != null" >
+        MOBILE_NO = #{MOBILE_NO},
+      </if>
+      <if test="MSN != null" >
+        MSN = #{MSN},
+      </if>
+      <if test="H_TEL != null" >
+        H_TEL = #{H_TEL},
+      </if>
+      <if test="H_ADDRESS != null" >
+        H_ADDRESS = #{H_ADDRESS},
+      </if>
+      <if test="H_ZIP_CODE != null" >
+        H_ZIP_CODE = #{H_ZIP_CODE},
+      </if>
+      <if test="P_EMAIL != null" >
+        P_EMAIL = #{P_EMAIL},
+      </if>
+      <if test="PARTY != null" >
+        PARTY = #{PARTY},
+      </if>
+      <if test="DEGREE != null" >
+        DEGREE = #{DEGREE},
+      </if>
+      <if test="D_SUPERVISOR != null" >
+        D_SUPERVISOR = #{D_SUPERVISOR},
+      </if>
+      <if test="SPECIALTY != null" >
+        SPECIALTY = #{SPECIALTY},
+      </if>
+      <if test="WORK_EXP != null" >
+        WORK_EXP = #{WORK_EXP},
+      </if>
+      <if test="REG_DATE != null" >
+        REG_DATE = #{REG_DATE},
+      </if>
+      <if test="CREATE_TIME != null" >
+        CREATE_TIME = #{CREATE_TIME},
+      </if>
+      <if test="LAST_UPDATE_TIME != null" >
+        LAST_UPDATE_TIME = #{LAST_UPDATE_TIME},
+      </if>
+      <if test="ORG_ID_LIST != null" >
+        ORG_ID_LIST = #{ORG_ID_LIST},
+      </if>
+      <if test="ORG_ID != null" >
+        ORG_ID = #{ORG_ID},
+      </if>
+      <if test="REMARK != null" >
+        REMARK = #{REMARK},
+      </if>
+    </set>
+    WHERE EMP_ID = #{EMP_ID}
+  </update>
+  <sql id="queryChildrenTreeNodes_condition">
+		<!-- <if test="APP_ID != null and APP_ID !=''">
+			AND APP_ID = #{APP_ID}
+		</if> -->
+	</sql>
+  <select id="queryTreeNodes" resultMap="ZTreeNodeResultMap" parameterType="map" >
+  	SELECT * FROM (
+  	(
+		SELECT
+			ORG_ID ID,
+			PARENT_ORG_ID PID,
+			ORG_CODE CODE,
+			ORG_NAME NAME,
+			'ORG' TYPE,
+			'OpIcon02' ICON_SKIN,
+			'1' IS_PARENT,
+			'' EXTEND_ATTR
+		FROM
+			OM_ORGANIZATION
+		WHERE
+			1 = 1
+			<include refid="queryChildrenTreeNodes_condition" />
+	)
+	UNION ALL
+		(
+			SELECT
+				POSITION_ID ID,
+				ORG_ID PID,
+				POSI_CODE CODE,
+				POSI_NAME NAME,
+				'POSI' TYPE,
+				'OpIcon01' ICON_SKIN,
+				'1' IS_PARENT,
+				'' EXTEND_ATTR
+			FROM
+				OM_POSITION
+			WHERE
+				ifnull(PARENT_POSI_ID,'') = ''
+				<include refid="queryChildrenTreeNodes_condition" />
+		)
+	UNION ALL
+		(
+			SELECT
+				POSITION_ID ID,
+				PARENT_POSI_ID PID,
+				POSI_CODE CODE,
+				POSI_NAME NAME,
+				'POSI' TYPE,
+				'OpIcon01' ICON_SKIN,
+				'1' IS_PARENT,
+				'' EXTEND_ATTR
+			FROM
+				OM_POSITION
+			WHERE
+				ifnull(PARENT_POSI_ID,'') != ''
+				<include refid="queryChildrenTreeNodes_condition" />
+		)
+	UNION ALL
+		(
+			SELECT
+				OM_EMPLOYEE.EMP_ID ID,
+				OM_EMP_ORG.ORG_ID PID,
+				EMP_CODE CODE,
+				EMP_NAME NAME,
+				'EMP' TYPE,
+				'OpIcon03' ICON_SKIN,
+				'0' IS_PARENT,
+				OM_EMPLOYEE.OPERATOR_ID EXTEND_ATTR
+			FROM
+				OM_EMPLOYEE,OM_EMP_ORG
+			WHERE
+				OM_EMPLOYEE.EMP_ID = OM_EMP_ORG.EMP_ID
+				<include refid="queryChildrenTreeNodes_condition" />
+		)
+	UNION ALL
+		(
+			SELECT
+				OM_EMPLOYEE.EMP_ID ID,
+				OM_EMP_POSITION.POSITION_ID PID,
+				OM_EMPLOYEE.EMP_CODE CODE,
+				OM_EMPLOYEE.EMP_NAME NAME,
+				'EMP' TYPE,
+				'OpIcon03' ICON_SKIN,
+				'0' IS_PARENT,
+				OM_EMPLOYEE.OPERATOR_ID EXTEND_ATTR
+			FROM
+				OM_EMPLOYEE,OM_EMP_POSITION
+			WHERE
+				OM_EMPLOYEE.EMP_ID = OM_EMP_POSITION.EMP_ID
+				<include refid="queryChildrenTreeNodes_condition" />
+		)
+	) T
+	ORDER BY T.TYPE, T.CODE
+  </select>
+</mapper>

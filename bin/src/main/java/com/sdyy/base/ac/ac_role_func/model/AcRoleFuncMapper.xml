@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="acRoleFuncSpace" >
+  <sql id="Base_Column_List" >
+    ROLE_ID, FUNC_ID, APP_ID, FUNC_GROUP_ID
+  </sql>
+  <select id="get" resultType="map" parameterType="string" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM AC_ROLE_FUNC
+    WHERE ROLE_ID = #{ROLE_ID}
+      AND FUNC_ID = #{FUNC_ID}
+  </select>
+  <select id="query" resultType="map" parameterType="map" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM AC_ROLE_FUNC
+    WHERE 1=1
+    <if test="ROLE_ID != null" >
+      AND ROLE_ID = #{ROLE_ID}
+    </if>
+    <if test="APP_ID != null" >
+      AND APP_ID = #{APP_ID}
+    </if>
+  </select>
+  <select id="queryPage" resultType="map" parameterType="map" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM AC_ROLE_FUNC
+    WHERE 1=1
+  </select>
+  <delete id="delete" parameterType="map" >
+    DELETE FROM AC_ROLE_FUNC
+    WHERE ROLE_ID = #{ROLE_ID}
+      <!-- AND FUNC_ID = #{FUNC_ID} -->
+  </delete>
+    <delete id="batchDelete" parameterType="map" >
+    DELETE FROM AC_ROLE_FUNC
+    WHERE 1=2
+    <if test="ROLE_IDS != null" >
+      OR ROLE_ID IN (${ROLE_IDS})
+    </if>
+  </delete>
+  <insert id="insert" parameterType="map" >
+    INSERT INTO AC_ROLE_FUNC (ROLE_ID, FUNC_ID, APP_ID, 
+      FUNC_GROUP_ID)
+    VALUES (#{ROLE_ID}, #{FUNC_ID}, #{APP_ID}, 
+      #{FUNC_GROUP_ID})
+  </insert>
+  
+
+  <update id="update" parameterType="map" >
+   UPDATE AC_ROLE_FUNC
+    <set >
+      <if test="APP_ID != null" >
+        APP_ID = #{APP_ID},
+      </if>
+      <if test="FUNC_GROUP_ID != null" >
+        FUNC_GROUP_ID = #{FUNC_GROUP_ID},
+      </if>
+    </set>
+    WHERE ROLE_ID = #{ROLE_ID}
+      AND FUNC_ID = #{FUNC_ID}
+  </update>
+  
+
+</mapper>

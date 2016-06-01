@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sysDictSpace" >
+	<sql id="Base_Column_List" >
+    	<!-- DIC_TYPE_ID, TYPE_NAME,TYPE_CODE,IS_USE    -->
+    	DIC_ID,TEXT,VALUE,TYPE_ID,IS_USE,PID
+	</sql>
+	<select id="get" resultType="map" parameterType="string" >
+		SELECT DIC_TYPE_ID,TYPE_NAME,TYPE_CODE,IS_USE
+    	FROM SYS_DIC_TYPE
+    	WHERE DIC_TYPE_ID = #{DIC_TYPE_ID}
+	</select>
+	<select id="query" resultType="map" parameterType="map" >
+    	SELECT DIC_TYPE_ID,TYPE_NAME,TYPE_CODE
+    	FROM SYS_DIC_TYPE
+    	WHERE 1=1
+    	<if test="TYPE_CODE != null" >
+      	AND  TYPE_CODE = #{TYPE_CODE}
+    	</if>
+    	<if test="DIC_TYPE_ID != null" >
+      	AND  DIC_TYPE_ID = #{DIC_TYPE_ID}
+    	</if>
+    	<if test="NOT_ID != null" >
+      	AND  DIC_TYPE_ID != #{NOT_ID}
+    	</if>
+	</select>
+	<select id="queryPage" resultType="map" parameterType="map" >
+    	SELECT DIC_TYPE_ID,TYPE_NAME,TYPE_CODE
+    	FROM SYS_DIC_TYPE
+    	WHERE 1=1
+    	<if test="t.TYPE_NAME != null" >
+      	AND TYPE_NAME LIKE '%${t.TYPE_NAME}%'
+    	</if>
+    </select>
+    <insert id="insert" parameterType="map" >
+    	INSERT INTO SYS_DIC_TYPE (DIC_TYPE_ID,TYPE_NAME,TYPE_CODE,IS_USE)
+    	VALUES (#{DIC_TYPE_ID}, #{TYPE_NAME}, #{TYPE_CODE}, 
+      	#{IS_USE})
+	</insert>
+	<update id="update" parameterType="map" >
+   		UPDATE SYS_DIC_TYPE
+    <set >
+      <if test="TYPE_NAME != null" >
+        TYPE_NAME = #{TYPE_NAME},
+      </if>
+      <if test="TYPE_CODE != null" >
+        TYPE_CODE = #{TYPE_CODE},
+      </if>
+      <if test="IS_USE != null" >
+        IS_USE = #{IS_USE},
+      </if>    
+    </set>
+    WHERE DIC_TYPE_ID = #{DIC_TYPE_ID}
+  </update>
+  
+  <delete id="batchDelete" parameterType="map" >
+    DELETE FROM SYS_DIC_TYPE
+    WHERE 1=2
+    <if test="DIC_IDS != null" >
+     OR   DIC_TYPE_ID IN (${DIC_IDS})
+    </if>
+  </delete>
+  <delete id="deleteItems" parameterType="map" >
+    DELETE FROM SYS_DIC
+	WHERE  1=2 
+	<if test="DIC_IDS != null" >
+	OR TYPE_ID IN (${DIC_IDS})
+  	</if>
+  </delete>
+ 	<!-- 右侧列表 -->
+	<select id="rightQueryPage" resultType="map" parameterType="map" >
+		SELECT
+			DIC_ID,
+			TEXT,
+		    VALUE,
+			SYS_DIC.IS_USE,
+			PID,
+			TYPE_ID,
+			SYS_DIC_TYPE.TYPE_CODE,
+		  SYS_DIC_TYPE.TYPE_NAME,
+		  SYS_DIC_TYPE.IS_USE TYPE_IS_USE
+		FROM
+			SYS_DIC
+		INNER JOIN SYS_DIC_TYPE 
+		ON SYS_DIC.TYPE_ID = SYS_DIC_TYPE.DIC_TYPE_ID
+		WHERE
+			1 = 1
+    	<if test="t.DIC_TYPE_ID != null" >
+    		AND TYPE_ID = #{t.DIC_TYPE_ID}
+    	</if>
+    	<if test="t.TYPE_CODE != null" >
+    		AND SYS_DIC_TYPE.TYPE_CODE = #{t.TYPE_CODE}
+    	</if>   
+  	</select>
+  	<select id="rightQuery" resultType="map" parameterType="map" >
+    	SELECT
+			DIC_ID,
+			TEXT,
+		    VALUE,
+			SYS_DIC.IS_USE,
+			PID,
+			TYPE_ID,
+			SYS_DIC_TYPE.TYPE_CODE,
+		  SYS_DIC_TYPE.TYPE_NAME,
+		  SYS_DIC_TYPE.IS_USE TYPE_IS_USE
+		FROM
+			SYS_DIC
+		INNER JOIN SYS_DIC_TYPE 
+		ON SYS_DIC.TYPE_ID = SYS_DIC_TYPE.DIC_TYPE_ID
+		WHERE
+			1 = 1
+		<if test="TYPE_ID != null" >
+    		AND TYPE_ID = #{TYPE_ID}
+    	</if>
+    	<if test="VALUE != null" >
+      	AND  VALUE = #{VALUE}
+    	</if>
+    	<if test="NOT_ID != null" >
+      	AND  DIC_ID != #{NOT_ID}
+    	</if>
+	</select>
+	<select id="queryDictItem" resultType="map" parameterType="map" >
+		SELECT
+			DIC_ID,
+			TEXT,
+		    VALUE,
+			SYS_DIC.IS_USE,
+			PID,
+			TYPE_ID,
+			SYS_DIC_TYPE.TYPE_CODE,
+		  SYS_DIC_TYPE.TYPE_NAME,
+		  SYS_DIC_TYPE.IS_USE TYPE_IS_USE
+		FROM
+			SYS_DIC
+		INNER JOIN SYS_DIC_TYPE 
+		ON SYS_DIC.TYPE_ID = SYS_DIC_TYPE.DIC_TYPE_ID
+		WHERE
+			1 = 1
+    	<if test="TYPE_CODE != null" >
+    		AND SYS_DIC_TYPE.TYPE_CODE = #{TYPE_CODE}
+    	</if>   
+  	</select>
+	<select id="rightGet" resultType="map" parameterType="string" >
+		SELECT
+		<include refid="Base_Column_List" />
+    	FROM SYS_DIC
+    	WHERE 1=1
+    	AND DIC_ID = #{DIC_ID}
+	</select>
+	
+	<insert id="rightInsert" parameterType="map" >
+    	INSERT INTO SYS_DIC (DIC_ID,TEXT,VALUE,TYPE_ID,IS_USE,PID)
+    	VALUES (#{DIC_ID}, #{TEXT}, #{VALUE}, 
+      	#{TYPE_ID}, #{IS_USE}, #{PID})
+	</insert>
+  <update id="rightUpdate" parameterType="map" >
+   		UPDATE SYS_DIC
+    <set >
+      <if test="TEXT != null" >
+        TEXT = #{TEXT},
+      </if>
+      <if test="VALUE != null" >
+        VALUE = #{VALUE},
+      </if>
+      <if test="TYPE_ID != null" >
+        TYPE_ID = #{TYPE_ID},
+      </if>
+      <if test="IS_USE != null" >
+        IS_USE = #{IS_USE},
+      </if>
+    </set>
+    WHERE DIC_ID = #{DIC_ID}
+  </update>
+  <delete id="rightBatchDelete" parameterType="map" >
+    DELETE FROM SYS_DIC
+    WHERE 1=2
+    <if test="DIC_IDS != null" >
+     OR   DIC_ID IN (${DIC_IDS})
+    </if>
+  </delete>
+</mapper>

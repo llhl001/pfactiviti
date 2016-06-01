@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="acRoleSpace" >
+  <sql id="Base_Column_List" >
+    ROLE_ID, ROLE_NAME, ROLE_TYPE, ROLE_DESC, APP_ID, CREATE_TIME
+  </sql>
+  <select id="get" resultType="map" parameterType="string" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM AC_ROLE
+    WHERE ROLE_ID = #{ROLE_ID}
+  </select>
+  <select id="query" resultType="map" parameterType="map" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM AC_ROLE
+    WHERE 1=1
+  </select>
+  <select id="queryPage" resultType="map" parameterType="map" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM AC_ROLE
+    WHERE 1=1
+    <if test="t.ROLE_NAME != null" >
+      AND ROLE_NAME LIKE '%${t.ROLE_NAME}%'
+    </if>
+    ORDER BY CREATE_TIME DESC
+  </select>
+  <delete id="delete" parameterType="string" >
+    DELETE FROM AC_ROLE
+    WHERE ROLE_ID = #{ROLE_ID}
+  </delete>
+  <delete id="batchDelete" parameterType="map" >
+    DELETE FROM AC_ROLE
+    WHERE 1=2
+    <if test="ROLE_IDS != null" >
+     OR   ROLE_ID IN (${ROLE_IDS})
+    </if>
+  </delete>
+  <insert id="insert" parameterType="map" >
+    INSERT INTO AC_ROLE (ROLE_ID, ROLE_NAME, ROLE_TYPE, 
+      ROLE_DESC, APP_ID, CREATE_TIME)
+    VALUES (#{ROLE_ID}, #{ROLE_NAME}, #{ROLE_TYPE}, 
+      #{ROLE_DESC}, #{APP_ID}, #{CREATE_TIME})
+  </insert>
+  
+
+  <update id="update" parameterType="map" >
+   UPDATE AC_ROLE
+    <set >
+      <if test="ROLE_NAME != null" >
+        ROLE_NAME = #{ROLE_NAME},
+      </if>
+      <if test="ROLE_TYPE != null" >
+        ROLE_TYPE = #{ROLE_TYPE},
+      </if>
+      <if test="ROLE_DESC != null" >
+        ROLE_DESC = #{ROLE_DESC},
+      </if>
+      <if test="APP_ID != null" >
+        APP_ID = #{APP_ID},
+      </if>
+      <if test="CREATE_TIME != null" >
+        CREATE_TIME = #{CREATE_TIME},
+      </if>
+    </set>
+    WHERE ROLE_ID = #{ROLE_ID}
+  </update>
+  
+
+</mapper>

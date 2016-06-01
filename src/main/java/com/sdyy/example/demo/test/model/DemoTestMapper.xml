@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="demoTestSpace">
+	<sql id="Base_Column_List">
+		TEST_ID, VALUE, TEXT
+	</sql>
+	<select id="get" resultType="map" parameterType="string">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM DEMO_TEST
+		WHERE TEST_ID = #{TEST_ID}
+	</select>
+	<select id="query" resultType="map" parameterType="map">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM DEMO_TEST
+		WHERE 1=1
+		<if test="VALUE != null">
+			AND VALUE = #{VALUE},
+		</if>
+		<if test="TEXT != null">
+			AND TEXT = #{TEXT}
+		</if>
+	</select>
+	<select id="queryPage" resultType="map" parameterType="map">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM DEMO_TEST
+		WHERE 1=1
+		<if test="VALUE != null">
+			AND VALUE = #{VALUE},
+		</if>
+		<if test="TEXT != null">
+			AND TEXT = #{TEXT}
+		</if>
+	</select>
+	<delete id="delete" parameterType="string">
+		DELETE FROM DEMO_TEST
+		WHERE TEST_ID = #{TEST_ID}
+	</delete>
+	<insert id="insert" parameterType="map">
+		INSERT INTO DEMO_TEST (TEST_ID, VALUE, TEXT)
+		VALUES (#{TEST_ID}, #{VALUE}, #{TEXT})
+	</insert>
+	<update id="update" parameterType="map">
+		UPDATE DEMO_TEST
+		<set>
+			<if test="value != null">
+				VALUE = #{VALUE},
+			</if>
+			<if test="TEXT != null">
+				TEXT = #{TEXT},
+			</if>
+		</set>
+		WHERE TEST_ID = #{TEST_ID}
+	</update>
+</mapper>

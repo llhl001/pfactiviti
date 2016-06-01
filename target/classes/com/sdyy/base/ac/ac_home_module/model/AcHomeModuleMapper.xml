@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="acHomeModuleSpace" >
+  <resultMap id="ZTreeNodeResultMap" type="com.sdyy.common.zTree.ZTreeNode" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="PID" property="pId" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="ICON_SKIN" property="iconSkin" jdbcType="VARCHAR" />
+    <result column="IS_PARENT" property="isParent" jdbcType="CHAR" />
+    <result column="EXTEND_ATTR" property="extendAttr" jdbcType="VARCHAR" />
+    <result column="EXTEND_ATTR_1" property="extendAttr1" jdbcType="VARCHAR" />
+    <result column="CHECKED" property="checked" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+   HOME_MODULE_ID,MODULE_TYPE,MODULE_NAME,HTML_CONTENT,PARAM_JSON,APP_ID,IN_USE,CODE,DATA_COL,DATA_ROW,DATA_SIZEX,DATA_SIZEY
+  </sql>
+  <select id="get" resultType="map" parameterType="string" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM AC_HOME_MODULE
+    WHERE HOME_MODULE_ID = #{HOME_MODULE_ID}
+  </select>
+  <select id="query" resultType="map" parameterType="map" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM AC_HOME_MODULE
+    WHERE 1=1
+<!--     <if test="FUNC_ACTION != null">
+		AND FUNC_ACTION = #{FUNC_ACTION}
+	</if> -->
+  </select>
+  <select id="queryPage" resultType="map" parameterType="map" >
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM AC_HOME_MODULE
+    WHERE 1=1
+  </select>
+  <delete id="delete" parameterType="string" >
+    DELETE AC_HOME_MODULE<!-- 关联表已做删除触发器,会自动删除 -->
+     FROM AC_HOME_MODULE
+    WHERE AC_HOME_MODULE.HOME_MODULE_ID = #{HOME_MODULE_ID}
+  </delete>
+  <delete id="batchDelete" parameterType="map" >
+    DELETE FROM AC_HOME_MODULE<!-- 关联表已做删除触发器,会自动删除 -->
+    WHERE 1=2
+    <if test="HOME_MODULE_IDS != null" >
+     OR   HOME_MODULE_ID IN (${HOME_MODULE_IDS})
+    </if>
+  </delete>
+  <insert id="insert" parameterType="map" >
+    INSERT INTO AC_HOME_MODULE (HOME_MODULE_ID,MODULE_TYPE,MODULE_NAME,HTML_CONTENT,PARAM_JSON,APP_ID,IN_USE,CODE,DATA_COL,DATA_ROW,DATA_SIZEX,DATA_SIZEY)
+    VALUES (#{HOME_MODULE_ID},#{MODULE_TYPE},#{MODULE_NAME},#{HTML_CONTENT},#{PARAM_JSON},#{APP_ID},#{IN_USE},#{CODE},#{DATA_COL},#{DATA_ROW},#{DATA_SIZEX},#{DATA_SIZEY})
+  </insert>
+  <update id="update" parameterType="map" >
+   UPDATE AC_HOME_MODULE
+    <set >
+      <if test="MODULE_TYPE != null" >
+        MODULE_TYPE = #{MODULE_TYPE},
+      </if>
+      <if test="MODULE_NAME != null" >
+        MODULE_NAME = #{MODULE_NAME},
+      </if>
+      <if test="HTML_CONTENT != null" >
+        HTML_CONTENT = #{HTML_CONTENT},
+      </if>
+      <if test="PARAM_JSON != null" >
+        PARAM_JSON = #{PARAM_JSON},
+      </if>
+      <if test="APP_ID != null" >
+        APP_ID = #{APP_ID},
+      </if>
+      <if test="IN_USE != null" >
+        IN_USE = #{IN_USE},
+      </if>
+      <if test="CODE != null" >
+        CODE = #{CODE},
+      </if>
+      <if test="DATA_COL != null" >
+        DATA_COL = #{DATA_COL},
+      </if>
+      <if test="DATA_ROW != null" >
+        DATA_ROW = #{DATA_ROW},
+      </if>
+      <if test="DATA_SIZEX != null" >
+        DATA_SIZEX = #{DATA_SIZEX},
+      </if>
+      <if test="DATA_SIZEY != null" >
+        DATA_SIZEY = #{DATA_SIZEY},
+      </if>
+    </set>
+    WHERE HOME_MODULE_ID = #{HOME_MODULE_ID}
+  </update>
+  
+  <select id="queryNodesForRole" resultMap="ZTreeNodeResultMap" parameterType="map" >
+  	SELECT * FROM (
+		SELECT
+			AC_HOME_MODULE.HOME_MODULE_ID ID,
+			<!-- PARENT_ID PID, -->
+			CODE CODE,
+			MODULE_NAME NAME,
+			MODULE_TYPE TYPE,
+			'OpIcon02' ICON_SKIN,
+			'0' IS_PARENT,
+			CASE WHEN AC_ROLE_HOME_MODULE.ROLE_ID IS NOT NULL THEN '1' ELSE '0' END AS CHECKED
+		FROM
+			AC_HOME_MODULE
+		LEFT JOIN AC_ROLE_HOME_MODULE
+			ON AC_ROLE_HOME_MODULE.HOME_MODULE_ID = AC_HOME_MODULE.HOME_MODULE_ID
+			AND AC_ROLE_HOME_MODULE.ROLE_ID = #{ROLE_ID}
+
+	) T
+	ORDER BY T.TYPE, T.CODE
+  </select>
+  
+  
+  <!-- RoleHomeModule ↓ -->
+  
+  <delete id="deleteRoleHomeModule" parameterType="map" >
+    DELETE FROM AC_ROLE_HOME_MODULE
+    WHERE ROLE_ID = #{ROLE_ID}
+      <!-- AND FUNC_ID = #{FUNC_ID} -->
+  </delete>
+  <insert id="insertRoleHomeModule" parameterType="map" >
+    INSERT INTO AC_ROLE_HOME_MODULE (ROLE_ID, HOME_MODULE_ID)
+    VALUES (#{ROLE_ID}, #{HOME_MODULE_ID})
+  </insert>
+  <insert id="batchInsertRoleHomeModule" parameterType="List">
+	INSERT INTO AC_ROLE_HOME_MODULE (ROLE_ID, HOME_MODULE_ID) VALUES
+	<foreach collection="list" item="record" index="index" separator=",">
+		(#{record.ROLE_ID}, #{record.HOME_MODULE_ID})
+	</foreach>
+  </insert>
+  
+  <!-- OperHomeModule ↓ -->
+  <select id="queryOperHomeModule" resultType="map" parameterType="map" >
+  		SELECT
+			MODULE.HOME_MODULE_ID,
+			MODULE.MODULE_TYPE,
+			MODULE.MODULE_NAME,
+			MODULE.HTML_CONTENT,
+			MODULE.PARAM_JSON,
+			MODULE.APP_ID,
+			MODULE.IN_USE,
+			MODULE.CODE,
+			OPER.DATA_COL,
+			OPER.DATA_ROW,
+			OPER.DATA_SIZEX,
+			OPER.DATA_SIZEY
+		FROM
+			AC_HOME_MODULE AS MODULE,
+			AC_OPER_HOME_MODULE AS OPER
+		WHERE 
+			MODULE.HOME_MODULE_ID = OPER.HOME_MODULE_ID
+			AND OPER.OPERATOR_ID = #{OPERATOR_ID}
+			AND MODULE.HOME_MODULE_ID IN 
+			(
+					SELECT HOME_MODULE_ID FROM AC_ROLE_HOME_MODULE
+					INNER JOIN AC_OPERATOR_ROLE
+					ON AC_ROLE_HOME_MODULE.ROLE_ID = AC_OPERATOR_ROLE.ROLE_ID
+					AND AC_OPERATOR_ROLE.OPERATOR_ID= #{OPERATOR_ID}
+					GROUP BY HOME_MODULE_ID
+			)
+  </select>
+  
+    <select id="queryOperRoleHomeModule" resultType="map" parameterType="map" >
+  		SELECT
+			MODULE.HOME_MODULE_ID,
+			MODULE.MODULE_TYPE,
+			MODULE.MODULE_NAME,
+			MODULE.HTML_CONTENT,
+			MODULE.PARAM_JSON,
+			MODULE.APP_ID,
+			MODULE.IN_USE,
+			MODULE.CODE,
+			MODULE.DATA_COL,
+			MODULE.DATA_ROW,
+			MODULE.DATA_SIZEX,
+			MODULE.DATA_SIZEY
+		FROM
+			AC_HOME_MODULE AS MODULE
+		WHERE
+			MODULE.HOME_MODULE_ID IN 
+		(
+				SELECT HOME_MODULE_ID FROM AC_ROLE_HOME_MODULE
+				INNER JOIN AC_OPERATOR_ROLE
+				ON AC_ROLE_HOME_MODULE.ROLE_ID = AC_OPERATOR_ROLE.ROLE_ID
+				AND AC_OPERATOR_ROLE.OPERATOR_ID= #{OPERATOR_ID}
+				GROUP BY HOME_MODULE_ID
+		)
+  </select>
+  
+  <delete id="deleteOperHomeModule" parameterType="map" >
+    DELETE FROM AC_OPER_HOME_MODULE
+    WHERE OPERATOR_ID = #{OPERATOR_ID}
+      <!-- AND FUNC_ID = #{FUNC_ID} -->
+  </delete>
+  <insert id="insertOperHomeModule" parameterType="map" >
+    INSERT INTO AC_OPER_HOME_MODULE (OPERATOR_ID,HOME_MODULE_ID,DATA_COL,DATA_ROW,DATA_SIZEX,DATA_SIZEY)
+    VALUES (#{OPERATOR_ID},#{HOME_MODULE_ID},#{DATA_COL},#{DATA_ROW},#{DATA_SIZEX},#{DATA_SIZEY})
+  </insert>
+  <insert id="batchInsertOperHomeModule" parameterType="List">
+	INSERT INTO AC_OPER_HOME_MODULE (OPERATOR_ID,HOME_MODULE_ID,DATA_COL,DATA_ROW,DATA_SIZEX,DATA_SIZEY) VALUES
+	<foreach collection="list" item="record" index="index" separator=",">
+		(#{record.OPERATOR_ID},#{record.HOME_MODULE_ID},#{record.DATA_COL},#{record.DATA_ROW},#{record.DATA_SIZEX},#{record.DATA_SIZEY})
+	</foreach>
+  </insert>
+</mapper>

@@ -1,0 +1,143 @@
+@CHARSET "UTF-8";
+.bgtree1{ width:210px;background: url("img/diy/bg_tree.gif");background-size:200px 750px}
+.bgtree{width:185px;background: url("img/diy/bg_tree.gif");overflow-y:auto;}
+/*.bgtree{ width:210px;filter:progid:DXImageTransform.Microsoft.gradient(startcolorstr=#ffffff,endcolorstr=#6B8E23,gradientType=0);background-size:100px 200px}*/
+/*主菜单ac_menu树形菜单样式;*/
+.ztree li span.button.switch.level0 {visibility:hidden; width:1px;}
+.ztree li ul.level0 {padding:10; background:none;}
+.ztree li span.button.Root_ico_open{width:20px;height:20px;margin-right:3px; background: url("img/diy/1_close.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.Root_ico_close{width:20px;height:20px;margin-right:3px; background: url("img/diy/1_close.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.pIcon01_ico_open{margin-right:3px; background: url("img/diy/1_open.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.pIcon01_ico_close{margin-right:3px; background: url("img/diy/1_close.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.pIcon02_ico_open{margin-right:3px; background: url("img/diy/folder_open.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.pIcon02_ico_close{margin-right:3px; background: url("img/diy/folder.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.pIcon03_ico_open{margin-right:3px; background: url("img/diy/folderOpen.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.pIcon03_ico_close{margin-right:3px; background: url("img/diy/folderClosed.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.Root_ico_docu{width:20px;height:20px;margin-right:3px; background: url("img/diy/1_close.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.icon01_ico_docu{margin-right:3px; background: url("img/diy/edit.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.icon02_ico_docu{margin-right:3px; background: url("img/diy/4.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.icon03_ico_docu{margin-right:3px; background: url("img/diy/5.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.icon04_ico_docu{margin-right:3px; background: url("img/diy/6.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.icon05_ico_docu{margin-right:3px; background: url("img/diy/7.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.icon06_ico_docu{margin-right:3px; background: url("img/diy/8.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.icon07_ico_docu{margin-right:3px; background: url("img/diy/17.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.icon08_ico_docu{margin-right:3px; background: url("img/diy/18.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.icon09_ico_docu{margin-right:3px; background: url("img/diy/11.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.icon10_ico_docu{margin-right:3px;height:40px; background: url("img/diy/leaf.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+/*菜单管理ac_menu_manage树形菜单样式;*/
+.ztree li span.button.ARoot_ico_open{width:20px;height:20px;margin-right:3px; background: url("img/diy/home1.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.ARoot_ico_close{width:20px;height:20px;margin-right:3px; background: url("img/diy/home1.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.ApIcon01_ico_open{margin-right:3px; background: url("img/diy/1_open.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.ApIcon01_ico_close{margin-right:3px; background: url("img/diy/1_close.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.ApIcon02_ico_open{margin-right:3px; background: url("img/diy/folder_open.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.ApIcon02_ico_close{margin-right:3px; background: url("img/diy/folder.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.ApIcon03_ico_open{margin-right:3px; background: url("img/diy/folderOpen.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.ApIcon03_ico_close{margin-right:3px; background: url("img/diy/folderClosed.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.ARoot_ico_docu{width:20px;height:20px;margin-right:3px; background: url("img/diy/1_close.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.Aicon01_ico_docu{margin-right:3px; background: url("img/diy/edit.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.Aicon02_ico_docu{margin-right:3px; background: url("img/diy/3.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.Aicon03_ico_docu{margin-right:3px; background: url("img/diy/5.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.Aicon04_ico_docu{margin-right:3px; background: url("img/diy/6.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.Aicon05_ico_docu{margin-right:3px; background: url("img/diy/7.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.Aicon06_ico_docu{margin-right:3px; background: url("img/diy/8.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.Aicon07_ico_docu{margin-right:3px; background: url("img/diy/3.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.Aicon08_ico_docu{margin-right:3px; background: url("img/diy/18.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.Aicon09_ico_docu{margin-right:3px; background: url("img/diy/11.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.Aicon10_ico_docu{margin-right:3px;height:40px; background: url("img/diy/leaf.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+/*机构人员 om_organization 树形菜单样式;*/
+.ztree li span.button.ORoot_ico_open{width:20px;height:20px;margin-right:3px; background: url("img/diy/hrms.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.ORoot_ico_close{width:20px;height:20px;margin-right:3px; background: url("img/diy/hrms.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.OpIcon01_ico_open{margin-right:3px; background: url("img/diy/group.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.OpIcon01_ico_close{margin-right:3px; background: url("img/diy/group.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.OpIcon02_ico_open{margin-right:3px; background: url("img/diy/attendance.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.OpIcon02_ico_close{margin-right:3px; background: url("img/diy/attendance.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.OpIcon03_ico_open{margin-right:3px; background: url("img/diy/U01.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.OpIcon03_ico_close{margin-right:3px; background: url("img/diy/U01.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.OpIcon04_ico_open{margin-right:3px; background: url("img/diy/U11.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.OpIcon04_ico_close{margin-right:3px; background: url("img/diy/U11.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.ORoot_ico_docu{width:20px;height:20px;margin-right:3px; background: url("img/diy/hrms.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.OpIcon01_ico_docu{margin-right:3px; background: url("img/diy/group.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.OpIcon02_ico_docu{margin-right:3px; background: url("img/diy/attendance.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.OpIcon03_ico_docu{margin-right:3px; background: url("img/diy/U01.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.OpIcon04_ico_docu{margin-right:3px; background: url("img/diy/U11.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+/*职务树 om_duty 树形菜单样式*/
+.ztree li span.button.DRoot_ico_open{width:20px;height:20px;margin-right:3px; background: url("img/diy/root_duty.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.DRoot_ico_close{width:20px;height:20px;margin-right:3px; background: url("img/diy/root_duty.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.DpIcon01_ico_open{margin-right:3px; background: url("img/diy/1hrms.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.DpIcon01_ico_close{margin-right:3px; background: url("img/diy/1hrms.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.DpIcon02_ico_open{margin-right:3px; background: url("img/diy/duty.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.DpIcon02_ico_close{margin-right:3px; background: url("img/diy/duty.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.DpIcon03_ico_open{margin-right:3px; background: url("img/diy/U01.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.DpIcon03_ico_close{margin-right:3px; background: url("img/diy/U01.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.DpIcon04_ico_open{margin-right:3px; background: url("img/diy/U11.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.DpIcon04_ico_close{margin-right:3px; background: url("img/diy/U11.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.DRoot_ico_docu{width:20px;height:20px;margin-right:3px; background: url("img/diy/root_duty.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.DpIcon01_ico_docu{margin-right:3px; background: url("img/diy/1hrms.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.DpIcon02_ico_docu{margin-right:3px; background: url("img/diy/duty.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.DpIcon03_ico_docu{margin-right:3px; background: url("img/diy/U01.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.DpIcon04_ico_docu{margin-right:3px; background: url("img/diy/U11.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+/*工作组om_group树形菜单样式;*/
+.ztree li span.button.GRoot_ico_open{width:20px;height:20px;margin-right:3px; background: url("img/diy/19.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.GRoot_ico_close{width:20px;height:20px;margin-right:3px; background: url("img/diy/19.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.GpIcon01_ico_open{margin-right:3px; background: url("img/diy/root_duty.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.GpIcon01_ico_close{margin-right:3px; background: url("img/diy/root_duty.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.GpIcon02_ico_open{margin-right:3px; background: url("img/diy/system.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.GpIcon02_ico_close{margin-right:3px; background: url("img/diy/system.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.GpIcon03_ico_open{margin-right:3px; background: url("img/diy/U01.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.GpIcon03_ico_close{margin-right:3px; background: url("img/diy/U01.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.GpIcon04_ico_open{margin-right:3px; background: url("img/diy/U11.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.GpIcon04_ico_close{margin-right:3px; background: url("img/diy/U11.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.GRoot_ico_docu{width:20px;height:20px;margin-right:3px; background: url("img/diy/hrms.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.GpIcon01_ico_docu{margin-right:3px; background: url("img/diy/root_duty.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.GpIcon02_ico_docu{margin-right:3px; background: url("img/diy/system.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.GpIcon03_ico_docu{margin-right:3px; background: url("img/diy/U01.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.GpIcon04_ico_docu{margin-right:3px; background: url("img/diy/U11.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+/*应用功能树形菜单;*/
+.ztree li span.button.FRoot_ico_open{width:20px;height:20px;margin-right:3px; background: url("img/diy/home1.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.FRoot_ico_close{width:20px;height:20px;margin-right:3px; background: url("img/diy/home1.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.FIcon01_ico_open{margin-right:3px; background: url("img/diy/application.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.FIcon01_ico_close{margin-right:3px; background: url("img/diy/application.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.FIcon02_ico_open{margin-right:3px; background: url("img/diy/folder_open_active.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.FIcon02_ico_close{margin-right:3px; background: url("img/diy/folder_active.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.FIcon03_ico_open{margin-right:3px; background: url("img/diy/folderOpen.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.FIcon03_ico_close{margin-right:3px; background: url("img/diy/folderClosed.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.FRoot_ico_docu{width:20px;height:20px;margin-right:3px; background: url("img/diy/1_close.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.Ficon01_ico_docu{margin-right:3px; background: url("img/diy/application.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.Ficon02_ico_docu{margin-right:3px; background: url("img/diy/folder_active.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.Ficon03_ico_docu{margin-right:3px; background: url("img/diy/3.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.Ficon04_ico_docu{margin-right:3px; background: url("img/diy/6.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.Ficon05_ico_docu{margin-right:3px; background: url("img/diy/7.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.Ficon06_ico_docu{margin-right:3px; background: url("img/diy/8.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.Ficon07_ico_docu{margin-right:3px; background: url("img/diy/17.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.Ficon08_ico_docu{margin-right:3px; background: url("img/diy/18.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.Ficon09_ico_docu{margin-right:3px; background: url("img/diy/11.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.Ficon10_ico_docu{margin-right:3px;height:40px; background: url("img/diy/leaf.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+/*角色功能树形菜单;*/
+.ztree li span.button.RFRoot_ico_open{width:20px;height:20px;margin-right:3px; background: url("img/diy/home1.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.RFRoot_ico_close{width:20px;height:20px;margin-right:3px; background: url("img/diy/home1.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.RFIcon01_ico_open{margin-right:3px; background: url("img/diy/application.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.RFIcon01_ico_close{margin-right:3px; background: url("img/diy/application.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.RFIcon02_ico_open{margin-right:3px; background: url("img/diy/brickss.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.RFIcon02_ico_close{margin-right:3px; background: url("img/diy/brickss.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.RFIcon03_ico_open{margin-right:3px; background: url("img/diy/folderOpen.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.RFIcon03_ico_close{margin-right:3px; background: url("img/diy/folderClosed.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.RFRoot_ico_docu{width:20px;height:20px;margin-right:3px; background: url("img/diy/1_close.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.RFicon01_ico_docu{margin-right:3px; background: url("img/diy/application.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.RFicon02_ico_docu{margin-right:3px; background: url("img/diy/folder_active.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.RFicon03_ico_docu{margin-right:3px; background: url("img/diy/application_form.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.RFicon04_ico_docu{margin-right:3px; background: url("img/diy/6.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.RFicon05_ico_docu{margin-right:3px; background: url("img/diy/7.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.RFicon06_ico_docu{margin-right:3px; background: url("img/diy/8.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.RFicon07_ico_docu{margin-right:3px; background: url("img/diy/17.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.RFicon08_ico_docu{margin-right:3px; background: url("img/diy/18.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.RFicon09_ico_docu{margin-right:3px; background: url("img/diy/11.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.RFicon10_ico_docu{margin-right:3px;height:40px; background: url("img/diy/leaf.gif") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.RFicon11_ico_docu{margin-right:3px; background: url("img/diy/3.png") no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
+/* div#rMenu {position:absolute; visibility:hidden; top:0;text-align: left;padding: 2px;}
+div#rMenu ul li{
+	margin: 1px 0;
+	padding: 0 5px;
+	cursor: pointer;
+	list-style: none outside none;
+	background-color: #DFDFDF;
+} */

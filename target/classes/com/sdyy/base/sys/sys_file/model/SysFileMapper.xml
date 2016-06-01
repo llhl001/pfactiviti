@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sysFileSpace" >
+	<sql id="Base_Column_List" >
+    	FILE_ID,MAIN_ID,FILE_NAME,FILE_REAL_NAME,FILE_TYPE,FILE_LOCATION,UPLOAD_TIME,UPLOADER,UPDATE_TIME,UPDATER,INVALID_TIME,INVALIDER,STATUS,REMARK,SIZE
+	</sql>
+	<select id="get" resultType="map" parameterType="string" >
+		SELECT <include refid="Base_Column_List" />
+    	FROM SYS_FILE
+    	WHERE FILE_ID = #{FILE_ID}
+	</select>
+	<select id="query" resultType="map" parameterType="map" >
+    	SELECT <include refid="Base_Column_List" />
+    	FROM SYS_FILE
+    	WHERE 1=1
+    	<if test="FILE_ID != null" >
+      		AND  FILE_ID = #{FILE_ID}
+    	</if>
+    	<if test="NOT_ID != null" >
+      		AND  FILE_ID != #{NOT_ID}
+    	</if>
+	</select>
+	<select id="queryPage" resultType="map" parameterType="map" >
+    	SELECT FILE_ID,TYPE_NAME,TYPE_CODE
+    	FROM SYS_FILE
+    	WHERE 1=1
+    </select>
+    <insert id="insert" parameterType="map" >
+    	INSERT INTO SYS_FILE (FILE_ID,MAIN_ID,FILE_NAME,FILE_REAL_NAME,FILE_TYPE,FILE_LOCATION,UPLOAD_TIME,UPLOADER,UPDATE_TIME,UPDATER,INVALID_TIME,INVALIDER,STATUS,REMARK,SIZE)
+    	VALUES (#{FILE_ID},#{MAIN_ID},#{FILE_NAME},#{FILE_REAL_NAME},#{FILE_TYPE},#{FILE_LOCATION},#{UPLOAD_TIME},#{UPLOADER},#{UPDATE_TIME},#{UPDATER},#{INVALID_TIME},#{INVALIDER},#{STATUS},#{REMARK},#{SIZE})
+	</insert>
+	<update id="update" parameterType="map" >
+   		UPDATE SYS_FILE
+    <set>
+      <if test="FILE_ID != null" >
+        FILE_ID = #{FILE_ID},
+      </if>
+      <if test="MAIN_ID != null" >
+        MAIN_ID = #{MAIN_ID},
+      </if>
+      <if test="FILE_NAME != null" >
+        FILE_NAME = #{FILE_NAME},
+      </if>
+      <if test="FILE_REAL_NAME != null" >
+        FILE_REAL_NAME = #{FILE_REAL_NAME},
+      </if>
+      <if test="FILE_TYPE != null" >
+        FILE_TYPE = #{FILE_TYPE},
+      </if>
+      <if test="FILE_LOCATION != null" >
+        FILE_LOCATION = #{FILE_LOCATION},
+      </if>
+      <if test="UPLOAD_TIME != null" >
+        UPLOAD_TIME = #{UPLOAD_TIME},
+      </if>
+      <if test="UPLOADER != null" >
+        UPLOADER = #{UPLOADER},
+      </if>
+      <if test="UPDATE_TIME != null" >
+        UPDATE_TIME = #{UPDATE_TIME},
+      </if>
+      <if test="UPDATER != null" >
+        UPDATER = #{UPDATER},
+      </if>
+      <if test="INVALID_TIME != null" >
+        INVALID_TIME = #{INVALID_TIME},
+      </if>
+      <if test="INVALIDER != null" >
+        INVALIDER = #{INVALIDER},
+      </if>
+      <if test="STATUS != null" >
+        STATUS = #{STATUS},
+      </if>
+      <if test="REMARK != null" >
+        REMARK = #{REMARK},
+      </if>
+      <if test="SIZE != null" >
+        SIZE = #{SIZE},
+      </if>
+    </set>
+    WHERE FILE_ID = #{FILE_ID}
+  </update>
+  
+  <select id="batchInsert" parameterType="java.util.List">
+  		INSERT INTO SYS_FILE (FILE_ID,MAIN_ID,FILE_NAME,FILE_REAL_NAME,FILE_TYPE,FILE_LOCATION,UPLOAD_TIME,UPLOADER,UPDATE_TIME,UPDATER,INVALID_TIME,INVALIDER,STATUS,REMARK,SIZE) VALUES
+    	<foreach collection="list" item="item" index="index" separator=",">
+    		(#{item.FILE_ID},#{item.MAIN_ID},#{item.FILE_NAME},#{item.FILE_REAL_NAME},#{item.FILE_TYPE},#{item.FILE_LOCATION},#{item.UPLOAD_TIME},#{item.UPLOADER},#{item.UPDATE_TIME},#{item.UPDATER},#{item.INVALID_TIME},#{item.INVALIDER},#{item.STATUS},#{item.REMARK},#{item.SIZE})
+		</foreach>
+  </select>
+  <delete id="batchDelete" parameterType="map" >
+    DELETE FROM SYS_FILE
+    WHERE 1=2
+    <if test="FILE_IDS != null" >
+     OR   FILE_ID IN (${FILE_IDS})
+    </if>
+  </delete>
+
+
+</mapper>
