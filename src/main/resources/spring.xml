@@ -163,7 +163,7 @@
 	</aop:config>
     
     <!-- 把加载了 配置文件的 sqlMapClient 注入 SqlSessionTemplate模板 -->
-	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" scope="prototype">  
 		<constructor-arg index="0" ref="sqlSessionFactory" /> 
 	</bean>
 	<!-- 公用数据库调用接口 -->
@@ -217,11 +217,7 @@
     
     <bean id="mybatisMapperLoadUtil" class="com.sdyy.common.utils.MybatisMapperLoadUtil" />
     
-    
-    
-    
-    
-    
+<!-- 工作流相关服务bean -->    
      <bean id="processEngineConfiguration" class="org.activiti.spring.SpringProcessEngineConfiguration">  
         <property name="dataSource" ref="dataSource" />  
         <property name="transactionManager" ref="transactionManager" />  
@@ -244,15 +240,4 @@
         factory-method="getManagementService" />  
     <bean id="identityService" factory-bean="processEngine"  
         factory-method="getIdentityService" />  
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 </beans>

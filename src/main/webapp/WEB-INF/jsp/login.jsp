@@ -79,7 +79,7 @@
 			//$("#password").attr('type', 'password');
 			$("#password").val(password);
 		} else {
-			$("#password").val("");
+			$("#password").val("1");
 		}
 	}
 	function submitForm() {
