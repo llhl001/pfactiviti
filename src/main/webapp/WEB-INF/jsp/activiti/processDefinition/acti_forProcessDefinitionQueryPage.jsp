@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ include file="../common/common_header.jsp"%>
+<%@ include file="../../common/common_header.jsp"%>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>流程定义分页列表</title>
@@ -20,10 +20,10 @@ function deletePd(id){
 	defaultConfirm("你确定要删除吗？删除后不可恢复！",(function(){
 		//BaseUtils.showWaitMsg();
 		$.ajax({
-			type: "post",
+			//type: "post",
 			url:'${ctx}/activiti/activitiDeleteById.do',
 			data : {				id : id			},
-			dataType:"json",
+			///dataType:"json",
 			success : function(data) {
 				//BaseUtils.hideWaitMsg();
 				alert(data);
@@ -34,13 +34,23 @@ function deletePd(id){
 		});
 	}));
 }
+function fordeploy(){
+	layer.open({
+		title:'发布流程定义',
+	    type: 2,
+	    area: ['700px', '300px'],
+	    fix: false, //不固定
+	    maxmin: true,
+	    content: '${ctx}/processDefinition/forProcessDefinitionDeploy.do'
+	});
+}
 </script>
 </head>
 <body>
 	<div class="location_box"><b>位置：</b><a href="">首页</a>&nbsp;&gt;&nbsp;<a href="">工作流管理</a>&nbsp;&gt;&nbsp;<span>流程定义管理</span></div>
 	<div class="right_con" style="height: 100%">
 		<div class="form_box">
-			<form id="queryForm" action="${ctx}/activiti/forActiviti.do" method="post">
+			<form id="queryForm" action="${ctx}/processDefinition/forProcessDefinitionQueryPage.do" method="post">
 				<table class="form_table">
 					<tr>
 						<th width="10%">定义名称：</th>
@@ -48,7 +58,7 @@ function deletePd(id){
 						<td>
 							<input style="width: 25%" onclick="$('#queryForm').submit();" id="search" type="button" class="formbtn1" value="查询流程定义" />&nbsp; 
 							<input style="width: 25%" onclick="deleteRole()" id="delete" type="button" class="formbtn1" value="删除流程定义" />
-							<input style="width: 25%" onclick="deploy()" id="add" type="button" class="formbtn1" value="发布流程定义" />&nbsp; 
+							<input style="width: 25%" onclick="fordeploy();" id="add" type="button" class="formbtn1" value="发布流程定义" />&nbsp; 
 						</td>
 					</tr>
 				</table>
@@ -86,7 +96,7 @@ function deletePd(id){
 					</tr>
 				</c:forEach>
 			</table>
-			<%@ include file="../common/pagination_tail.jsp"%>
+			<%@ include file="../../common/pagination_tail.jsp"%>
 		</div>
 	</div>
 </body>
