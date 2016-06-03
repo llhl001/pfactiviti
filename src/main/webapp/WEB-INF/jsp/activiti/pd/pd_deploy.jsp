@@ -36,9 +36,7 @@
 <body>
 	<div class="right_con">
 		<div class="form_box">
-			<form id="roleForm" name="roleForm" action="${ctx }/processDefinition/processDefinitionDeploy.do"
-			enctype="multipart/form-data"
-				method="post">
+			<form id="roleForm" name="roleForm" action="${ctx }/pd/processDefinitionDeploy.do"			enctype="multipart/form-data"				method="post">
 				<table class="form_table">
 					<tr>
 						<th width="15%"><font class="redfont">*</font>&nbsp;流程定义名称:</th>
@@ -53,8 +51,8 @@
 					</tr>
 					<tr>
 						<th></th>
-						<td colspan="3"><input type="button" onclick="save()"
-							class="formbtn1" value="确认部署" /></td>
+						<!-- <td colspan="3"><input type="button" onclick="save()"							class="formbtn1" value="确认部署" /></td> -->
+						<td colspan="3"><input type="submit"  						class="formbtn1" value="确认部署" /></td>
 					</tr>
 				</table>
 			</form>

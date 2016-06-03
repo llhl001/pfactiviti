@@ -12,7 +12,7 @@ function deletePd(id){
 		BaseUtils.showWaitMsg();
 		$.ajax({
 			type: "post",
-			url:'${ctx}/processDefinition/deleteProcessDefinitionById.do',
+			url:'${ctx}/pd/deleteById.do',
 			data : {id : id},
 			success : function(data) {
 				BaseUtils.hideWaitMsg();
@@ -30,7 +30,7 @@ function fordeploy(){
 	    area: ['700px', '300px'],
 	    fix: false, //不固定
 	    maxmin: true,
-	    content: '${ctx}/processDefinition/forProcessDefinitionDeploy.do'
+	    content: '${ctx}/pd/deploy.do'
 	});
 }
 $(function(){
@@ -46,16 +46,16 @@ $(function(){
 	<div class="location_box"><b>位置：</b><a href="">首页</a>&nbsp;&gt;&nbsp;<a href="">工作流管理</a>&nbsp;&gt;&nbsp;<span>流程定义管理</span></div>
 	<div class="right_con" style="height: 100%">
 		<div class="form_box">
-			<form id="queryForm" action="${ctx}/processDefinition/forProcessDefinitionQueryPage.do" method="post">
+			<form id="queryForm" action="${ctx}/pd/query.do" method="post">
 				<table class="form_table">
 					<tr>
 						<th width="10%">定义名称：</th>
-						<td width="26%"><input class="forminput" type="text" name="name" value="${record.name }" />&nbsp;</td>
+						<td width="40%"><input class="forminput" type="text" name="name" value="${record.name }" />&nbsp;</td>
 						<th width="10%"></th>
-						<td width="26%" align="right">
-							<input style="width: 25%" onclick="$('#queryForm').submit();" id="search" type="button" class="formbtn1" value="查&nbsp; &nbsp; 询" />&nbsp; 
+						<td width="40%" align="right">
+							<input style="width: 20%" onclick="$('#queryForm').submit();" id="search" type="button" class="btn2" value="查&nbsp; &nbsp; 询" />&nbsp; 
 							<!-- <input style="width: 25%" onclick="deleteRole()" id="delete" type="button" class="formbtn1" value="删除流程定义" /> -->
-							<input style="width: 25%" onclick="fordeploy();" id="add" type="button" class="formbtn1" value="部 &nbsp; &nbsp; 署" />&nbsp; 
+							<input style="width: 20%" onclick="fordeploy();" id="add" type="button" class="btn2" value="部 &nbsp; &nbsp; 署" />&nbsp; 
 						</td>
 					</tr>
 				</table>
