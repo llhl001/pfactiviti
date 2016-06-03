@@ -14,9 +14,9 @@
 		BaseUtils.showWaitMsg();
 		$.ajax({
 					url : $("#roleForm").attr("action"),
-					type : "post",
-					data : $("#roleForm").serialize(),
-					dataType : "json",
+					//type : "post",
+					//data : $("#roleForm").serialize(),
+					//dataType : "json",
 					success : function(data) {
 						BaseUtils.hideWaitMsg();
 						alert(data.msg);
@@ -52,8 +52,9 @@
 					</tr>
 					<tr>
 						<th></th>
-						<td colspan="3"><input type="button" onclick="save()"
-							class="formbtn1" value="确认部署" /></td>
+						<td colspan="3">
+								<input type="submit" 							class="formbtn1" value="确认部署" />
+							</td>
 					</tr>
 				</table>
 			</form>

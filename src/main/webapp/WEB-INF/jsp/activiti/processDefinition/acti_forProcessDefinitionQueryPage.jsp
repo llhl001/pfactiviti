@@ -7,29 +7,18 @@
 <title>流程定义分页列表</title>
 <meta http-equiv="X-UA-Compatible" content="IE=8"/>
 <script type="text/javascript">
-function deploy(){
-		$.ajax({
-			url: "${ctx}/activiti/forActivitiDeploy.do",
-			type:"post",
-			success: function(data) {
-				alert("发布流程成功！");
-			}
-		}); 
-}
 function deletePd(id){
 	defaultConfirm("你确定要删除吗？删除后不可恢复！",(function(){
-		//BaseUtils.showWaitMsg();
+		BaseUtils.showWaitMsg();
 		$.ajax({
-			//type: "post",
-			url:'${ctx}/activiti/activitiDeleteById.do',
-			data : {				id : id			},
-			///dataType:"json",
+			type: "post",
+			url:'${ctx}/processDefinition/deleteProcessDefinitionById.do',
+			data : {id : id},
 			success : function(data) {
-				//BaseUtils.hideWaitMsg();
-				alert(data);
-			/* 	if (data.flag) {
+				BaseUtils.hideWaitMsg();
+			 	if (data.flag) {
 					$('#queryForm').submit();
-				} */
+				} 
 			}
 		});
 	}));
@@ -44,6 +33,13 @@ function fordeploy(){
 	    content: '${ctx}/processDefinition/forProcessDefinitionDeploy.do'
 	});
 }
+$(function(){
+	//全选择 全解除
+	$("#checkAll").click(function(){
+	    $(":checkbox").prop("checked", this.checked);
+	    $(":checkbox").attr("checked", this.checked);
+	});
+});
 </script>
 </head>
 <body>
@@ -55,10 +51,11 @@ function fordeploy(){
 					<tr>
 						<th width="10%">定义名称：</th>
 						<td width="26%"><input class="forminput" type="text" name="name" value="${record.name }" />&nbsp;</td>
-						<td>
-							<input style="width: 25%" onclick="$('#queryForm').submit();" id="search" type="button" class="formbtn1" value="查询流程定义" />&nbsp; 
-							<input style="width: 25%" onclick="deleteRole()" id="delete" type="button" class="formbtn1" value="删除流程定义" />
-							<input style="width: 25%" onclick="fordeploy();" id="add" type="button" class="formbtn1" value="发布流程定义" />&nbsp; 
+						<th width="10%"></th>
+						<td width="26%" align="right">
+							<input style="width: 25%" onclick="$('#queryForm').submit();" id="search" type="button" class="formbtn1" value="查&nbsp; &nbsp; 询" />&nbsp; 
+							<!-- <input style="width: 25%" onclick="deleteRole()" id="delete" type="button" class="formbtn1" value="删除流程定义" /> -->
+							<input style="width: 25%" onclick="fordeploy();" id="add" type="button" class="formbtn1" value="部 &nbsp; &nbsp; 署" />&nbsp; 
 						</td>
 					</tr>
 				</table>
@@ -68,7 +65,7 @@ function fordeploy(){
 		<div class="right_list">
 			<table class="tablelist">
 				<tr>
-					<th width="4%"><input class="formcheckbox" type="checkbox" id="checkAll" /></th>
+					<th width="3%"><input class="formcheckbox" type="checkbox" id="checkAll" /></th>
 					<th width="6%" align="center">编号&nbsp;&nbsp;<i class="sort"><img src="${ctx}/skin/default/images/px.gif" /></i></th>
 					<th width="15%" align="center">ID</th>
 					<th width="5%" align="center">部署ID</th>
@@ -76,21 +73,21 @@ function fordeploy(){
 					<th width="8%" align="center">名称</th>
 					<th width="12%" align="center">资源名称</th>
 					<th width="5%" align="center">版本</th>
-					<th width="6%" align="center">备注</th>
-					<th width="10%" align="center">操作</th>
+					<th width="10%" align="center">备注</th>
+					<th width="8%" align="center">操作</th>
 				</tr>
 				<c:forEach var="r" items="${pageView.records}" varStatus="status">
 					<tr>
 						<td><input class="formcheckbox" type="checkbox" name="check" value="${r.id}" /></td>
-						<td>${(pageView.pageNow - 1) * pageView.pageSize + status.index + 1}</td>
-						<td>${r.id }</td>
+						<td align="center">${(pageView.pageNow - 1) * pageView.pageSize + status.index + 1}</td>
+						<td align="center">${r.id }</td>
 						<td>${r.deploymentId}</td>
 						<td>${r.key }</td>
 						<td>${r.name }</td>
 						<td>${r.resourceName }</td>
-						<td>${r.version }</td>
-						<td>${r.description }</td>
-						<td>
+						<td align="center">${r.version }</td>
+						<td align="center">${r.description }</td>
+						<td align="center">
 							<a href="javascript:deletePd('${r.deploymentId}');">删除</a> 
 						</td>
 					</tr>
