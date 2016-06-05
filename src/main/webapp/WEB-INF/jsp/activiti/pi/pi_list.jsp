@@ -21,6 +21,33 @@ function start(key){
 			}
 		});
 }
+function view(key,type){
+	//window.open(url);
+	//alert(url_);
+	 //BaseUtils.showWaitMsg();
+		/* $.ajax({
+			type: "post",
+			url:'${ctx}/pd/showView.do',
+			data : {key : key},
+			success : function(data) {
+				//BaseUtils.hideWaitMsg();
+				alert(data);
+			 	if (data.flag) {
+				//	$('#queryForm').submit();
+				} 
+			}
+		});   */
+		layer.open({
+			title:'流程定义',
+		    type: 2,
+		    area: ['700px', '400px'],
+		    fix: false, //不固定
+		    maxmin: true,
+		    content: '${ctx}/pd/showView.do?type='+type+'&deploymentId='+key,
+		});
+		
+		
+}
 </script>
 </head>
 <body>
@@ -50,10 +77,10 @@ function start(key){
 					<th width="5%" align="center">部署ID</th>
 					<th width="8%" align="center">KEY</th>
 					<th width="8%" align="center">名称</th>
-					<th width="12%" align="center">资源名称</th>
+					<th width="18%" align="center">资源名称</th>
 					<th width="5%" align="center">版本</th>
-					<th width="10%" align="center">备注</th>
-					<th width="8%" align="center">操作</th>
+					<th width="8%" align="center">备注</th>
+					<th width="20%" align="center">操作</th>
 				</tr>
 				<c:forEach var="r" items="${pageView.records}" varStatus="status">
 					<tr>
@@ -67,6 +94,8 @@ function start(key){
 						<td align="center">${r.version }</td>
 						<td align="center">${r.description }</td>
 						<td align="center">
+							<a href="javascript:view('${r.deploymentId}','PNG');">PNG</a> 
+							<a href="javascript:view('${r.deploymentId}','XML');">XML</a> 
 							<a href="javascript:start('${r.key}');">启动实例</a> 
 						</td>
 					</tr>

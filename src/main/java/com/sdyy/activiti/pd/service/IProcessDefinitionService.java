@@ -16,4 +16,5 @@ public interface IProcessDefinitionService extends IBaseService {
 	public PageView forProcessDefinitionQueryPage(Map record, PageView pageView);
 	public boolean deleteProcessDefinitionById(Map record);
 	public void processDefinitionDeploy(HttpServletRequest request);
+	public void showView(HttpServletRequest request);
 }

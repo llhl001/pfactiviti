@@ -1,11 +1,25 @@
 package com.sdyy.activiti.pd.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.activiti.engine.HistoryService;
+import org.activiti.engine.IdentityService;
+import org.activiti.engine.ProcessEngine;
+import org.activiti.engine.ProcessEngines;
+import org.activiti.engine.RepositoryService;
+import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
+import org.activiti.engine.repository.ProcessDefinition;
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +34,18 @@ import com.sdyy.common.utils.HttpUtils;
 @Controller
 @RequestMapping("/pd")
 public class ProcessDefinitionController {
+	@Autowired
+	private ProcessEngine processEngine;
+	@Autowired
+	private RepositoryService repositoryService;
+	@Autowired
+	private TaskService taskService;
+	@Autowired
+	private HistoryService historyService;
+	@Autowired
+	private RuntimeService runtimeService;
+	@Autowired
+	private IdentityService identityService;
 	@Autowired
 	private ProcessDefinitionServiceImpl processDefinitionService;
 	private Logger logger = Logger.getLogger(this.getClass().getName());
@@ -41,16 +67,7 @@ public class ProcessDefinitionController {
 		boolean flag=processDefinitionService.deleteProcessDefinitionById(record);
 		return new RetObj(flag,request);
 	}
-/*	// 发布流程
-		@RequestMapping("deploy")
-		public String deploy(HttpServletRequest request,HttpServletResponse response) {
-			Map record = HttpUtils.getRequestMap(request);
-			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-			if(record!=null&&multipartRequest!=null){
-				processDefinitionService.processDefinitionDeploy(request);
-			}
-			return "activiti/pd/pd_deploy";
-		}*/
+
 	// 添加流程定义
 	@RequestMapping("deploy")
 	public String deploy(HttpServletRequest request,	HttpServletResponse response) {
@@ -66,4 +83,41 @@ public class ProcessDefinitionController {
 			//return new RetObj(true,request);
 			 return "redirect:/pd/deploy.do"; 
 	}
+	
+	
+	// 查看流程定义的流程图
+	@RequestMapping("showView")
+	public void showView(HttpServletRequest request,	HttpServletResponse response) throws IOException {
+		Map record = HttpUtils.getRequestMap(request);
+		String type = (String) record.get("type");
+		String deploymentId = (String) record.get("deploymentId");
+		List<String> names=repositoryService.getDeploymentResourceNames(deploymentId);
+		String fileName="";
+			for(String name:names){
+				if(type.equalsIgnoreCase("XML")){
+					if(name.indexOf(".bpmn")>=0){
+						fileName=name;
+					}
+				}else{
+					if(name.indexOf(".png")>=0){
+						fileName=name;
+					}
+				}
+			}
+			if(fileName!=null){
+				InputStream	in=processEngine.getRepositoryService().getResourceAsStream(deploymentId, fileName);
+				try {
+					//FileUtils.copyInputStreamToFile(in, f);
+					byte[] b = new byte[1024];
+				      int len = -1;
+				      while ((len = in.read(b, 0, 1024)) != -1) {
+				          response.getOutputStream().write(b, 0, len);
+				      }
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+	}
+	
+	
 }

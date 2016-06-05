@@ -3,6 +3,7 @@
  */
 package com.sdyy.activiti.pd.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -18,6 +19,7 @@ import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -155,4 +157,40 @@ public class ProcessDefinitionServiceImpl implements IProcessDefinitionService {
 
 		}
 	}
+
+	@Override
+	public void showView(HttpServletRequest request) {
+		Map record = HttpUtils.getRequestMap(request);
+		String filename = (String) record.get("name");
+		String deploymentId="17501";
+		List<String> names=repositoryService.getDeploymentResourceNames(deploymentId);
+		String imageName="";
+		for(String name:names){
+			if(name.indexOf(".png")>=0){
+				imageName=name;
+			}
+		}
+		if(imageName!=null){
+			File f=new File("e://"+imageName);
+			InputStream in=processEngine.getRepositoryService()
+					.getResourceAsStream(deploymentId, imageName);
+			try {
+				FileUtils.copyInputStreamToFile(in, f);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
+	
+	  
+	
+	
+	
+	
+	
+	
+	
 }
