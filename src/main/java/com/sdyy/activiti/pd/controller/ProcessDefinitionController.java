@@ -83,6 +83,12 @@ public class ProcessDefinitionController {
 			//return new RetObj(true,request);
 			 return "redirect:/pd/deploy.do"; 
 	}
+	// 发布流程
+	@RequestMapping("ActivitiExplorer")
+	//@ResponseBody
+	public String ActivitiExplorer(HttpServletRequest request,	HttpServletResponse response) {
+		return "activiti/explorer/hello"; 
+	}
 	
 	
 	// 查看流程定义的流程图
